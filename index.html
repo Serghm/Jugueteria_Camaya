@@ -3,47 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería - Escáner con Cámara</title>
+    <title>Juguetería Pro 🚀</title>
     <link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#1a73e8">
-
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081840.png">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* ESTILOS (CSS) */
-        body { font-family: sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1, h2 { text-align: center; color: #333; }
+        /* ESTILOS (Mejorados) */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #1a73e8; font-size: 24px; margin-bottom: 20px; }
         
-        .tabs { display: flex; justify-content: center; margin-bottom: 20px; }
-        .tab-btn { padding: 10px 20px; margin: 0 5px; cursor: pointer; background: #ddd; border: none; border-radius: 5px; font-size: 16px; }
-        .tab-btn.active { background: #007bff; color: white; }
+        /* Navegación */
+        .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; background: #f1f3f4; padding: 5px; border-radius: 25px; }
+        .tab-btn { flex: 1; padding: 12px; cursor: pointer; background: transparent; border: none; border-radius: 20px; font-weight: 600; color: #5f6368; transition: 0.3s; }
+        .tab-btn.active { background: #fff; color: #1a73e8; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
+        /* Inputs y Botones */
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 100%; box-sizing: border-box; padding: 10px; height: 40px; border: 1px solid #ccc; border-radius: 5px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #444; font-size: 14px; }
+        input, select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; background: #f8f9fa; }
+        input:focus { border-color: #1a73e8; outline: none; background: #fff; }
         
-        /* Estilos para el input con botón de cámara */
-        .input-group { display: flex; gap: 10px; }
-        .btn-scan { background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; padding: 0 15px; font-size: 20px; }
+        .input-group { display: flex; gap: 8px; }
+        .btn-scan { background: #5f6368; color: white; border: none; border-radius: 10px; padding: 0 15px; font-size: 22px; cursor: pointer; }
         
-        button.action-btn { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; margin-top: 10px; }
+        button.action-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; color: white; transition: transform 0.1s; }
+        button.action-btn:active { transform: scale(0.98); }
         
-        /* Área de la cámara */
-        #reader { width: 100%; margin-bottom: 20px; display: none; border: 2px solid red; }
+        /* Colores de botones */
+        .btn-green { background: #34a853; } /* Guardar */
+        .btn-blue { background: #1a73e8; }  /* Vender */
+        .btn-orange { background: #fbbc04; color: #333 !important; } /* Actualizar */
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        /* Cámara */
+        #reader { width: 100%; margin-bottom: 15px; display: none; border-radius: 12px; overflow: hidden; border: 3px solid #1a73e8; }
         
-        .section { display: none; }
+        /* Tablas */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; min-width: 500px; }
+        th { background-color: #f8f9fa; padding: 12px; text-align: left; color: #555; border-bottom: 2px solid #ddd; }
+        td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        
+        /* Estados */
+        .section { display: none; animation: fadeIn 0.3s; }
         .section.active { display: block; }
-        .low-stock { color: red; font-weight: bold; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .low-stock { color: #d93025; font-weight: 800; background: #fce8e6; padding: 2px 6px; border-radius: 4px; }
+        .money { color: #188038; font-weight: bold; }
+        
+        /* Info Mode (Para saber si estamos editando o creando) */
+        #modoInfo { display: none; padding: 10px; margin-bottom: 10px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .modo-nuevo { background-color: #e6f4ea; color: #137333; }
+        .modo-editar { background-color: #fef7e0; color: #b06000; }
     </style>
 </head>
 <body>
@@ -52,102 +66,364 @@
     <h1>🧸 Juguetería Camaya</h1>
 
     <div id="reader"></div>
-    <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:red; color:white; padding:10px; margin-bottom:10px;">Detener Cámara</button>
+    <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:#ea4335; color:white; padding:12px; margin-bottom:15px; border:none; border-radius:10px;">Cerrar Cámara ❌</button>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="mostrarSeccion('inventario')">Inventario</button>
-        <button class="tab-btn" onclick="mostrarSeccion('venta')">Punto de Venta</button>
+        <button class="tab-btn active" onclick="mostrarSeccion('inventario')">📦 Inventario</button>
+        <button class="tab-btn" onclick="mostrarSeccion('venta')">💰 Venta</button>
+        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📊 Historial</button>
     </div>
 
     <div id="inventario" class="section active">
         
-        <div class="form-group">
-            <label>Buscar en inventario:</label>
-            <div class="input-group">
-                <input type="text" id="buscador" placeholder="Escribe o escanea..." onkeyup="filtrarInventario()">
-                <button class="btn-scan" onclick="iniciarEscaneo('buscador')">📷</button>
-            </div>
-        </div>
-
-        <h2>Nuevo Juguete</h2>
-        <div class="form-group">
+        <div id="modoInfo"></div> <div class="form-group">
             <label>Código de Barras:</label>
             <div class="input-group">
-                <input type="text" id="codigo" placeholder="Ej. 750123456">
+                <input type="text" id="codigo" placeholder="Escanea para crear o reabastecer" onchange="verificarProducto()">
                 <button class="btn-scan" onclick="iniciarEscaneo('codigo')">📷</button>
             </div>
         </div>
         
-        <div class="form-group"><input type="text" id="nombre" placeholder="Nombre del juguete"></div>
-        <div class="form-group"><input type="text" id="descripcion" placeholder="Descripción breve"></div>
-        <div class="form-group"><input type="number" id="precioCompra" placeholder="Precio de Compra ($)"></div>
-        <div class="form-group"><input type="number" id="precioVenta" placeholder="Precio de Venta ($)"></div>
-        <div class="form-group"><input type="number" id="existencia" placeholder="Cantidad inicial"></div>
-        <button class="action-btn" onclick="agregarProducto()">Guardar Juguete</button>
+        <div class="form-group">
+            <label>Nombre del Juguete:</label>
+            <input type="text" id="nombre" placeholder="Ej. Pelota Gigante">
+        </div>
+        
+        <div class="form-group">
+            <label>Precio de Venta ($):</label>
+            <input type="number" id="precioVenta" placeholder="0.00">
+        </div>
 
-        <h2>Lista de Productos</h2>
-        <table id="tablaInventario">
-            <thead>
-                <tr><th>Código</th><th>Nombre</th><th>Stock</th><th>Precio</th><th>Acción</th></tr>
-            </thead>
-            <tbody id="listaProductos"></tbody>
-        </table>
+        <div class="form-group">
+            <label id="labelExistencia">Cantidad a Ingresar:</label>
+            <input type="number" id="existencia" placeholder="Cantidad que llegó">
+            <small id="stockActualHelp" style="display:none; color:#666;">(Se sumará al stock actual)</small>
+        </div>
+
+        <button id="btnGuardar" class="action-btn btn-green" onclick="procesarIngreso()">Guardar Nuevo Producto</button>
+        <button class="action-btn" style="background:#888; margin-top:10px;" onclick="limpiarInputs()">Limpiar Formulario</button>
+
+        <h3>Inventario Actual</h3>
+        <div class="input-group" style="margin-bottom:10px;">
+             <input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarInventarioLocal()">
+        </div>
+        
+        <div class="table-container">
+            <table id="tablaInventario">
+                <thead><tr><th>Producto</th><th>Stock</th><th>Precio</th><th>X</th></tr></thead>
+                <tbody id="listaProductos"></tbody>
+            </table>
+        </div>
     </div>
 
     <div id="venta" class="section">
-        <h2>Punto de Venta</h2>
+        <div class="form-group" style="text-align:center; padding:20px; background:#e8f0fe; border-radius:10px;">
+            <h2 id="totalVentaDisplay" style="margin:0; color:#1a73e8; font-size:40px;">$0.00</h2>
+            <small>Total a Cobrar</small>
+        </div>
+
         <div class="form-group">
-            <label>Escanear para vender:</label>
+            <label>Escanear Producto:</label>
             <div class="input-group">
-                <input type="text" id="buscadorVenta" placeholder="Escanea aquí..." onchange="buscarParaVenta()">
+                <input type="text" id="buscadorVenta" placeholder="Código..." onchange="buscarYSeleccionar()">
                 <button class="btn-scan" onclick="iniciarEscaneo('buscadorVenta')">📷</button>
             </div>
         </div>
 
         <div class="form-group">
-            <label>Producto Seleccionado:</label>
-            <select id="selectProductoVenta"><option value="">-- Ninguno --</option></select>
+            <select id="selectProductoVenta" onchange="calcularTotalPreview()">
+                <option value="">-- Esperando producto --</option>
+            </select>
         </div>
-        <div class="form-group"><label>Cantidad:</label><input type="number" id="cantidadVenta" value="1" min="1"></div>
-        <button class="action-btn" style="background-color: #007bff;" onclick="realizarVenta()">Confirmar Venta</button>
+        
+        <div class="form-group">
+            <label>Cantidad:</label>
+            <input type="number" id="cantidadVenta" value="1" min="1" onchange="calcularTotalPreview()">
+        </div>
+
+        <button class="action-btn btn-blue" onclick="venderEnNube()">✅ Confirmar Venta</button>
+    </div>
+
+    <div id="reportes" class="section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3>Ventas Recientes</h3>
+            <div style="text-align:right;">
+                <small>Total Vendido Hoy</small><br>
+                <span id="totalDia" class="money" style="font-size:20px;">$0.00</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Hora</th><th>Producto</th><th>Cant.</th><th>Total</th></tr></thead>
+                <tbody id="listaVentas"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<script>
-    // --- LÓGICA DE CÁMARA ---
-    let html5QrcodeScanner;
-    let inputDestinoActual = '';
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    function iniciarEscaneo(idInputDestino) {
-        inputDestinoActual = idInputDestino;
+    // ⚠️⚠️ PEGA TU CONFIGURACIÓN DE FIREBASE AQUÍ ⚠️⚠️
+    const firebaseConfig = {
+  apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
+  authDomain: "juguetescamaya.firebaseapp.com",
+  projectId: "juguetescamaya",
+  storageBucket: "juguetescamaya.firebasestorage.app",
+  messagingSenderId: "645609260652",
+  appId: "1:645609260652:web:6bed60f94237733086fa49"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    // Referencias a colecciones
+    const colJuguetes = collection(db, "juguetes");
+    const colVentas = collection(db, "ventas");
+
+    let inventarioLocal = [];
+    let idProductoEditando = null; // Para saber si estamos reabasteciendo
+
+    // 1. ESCUCHAR INVENTARIO (Lectura)
+    onSnapshot(colJuguetes, (snapshot) => {
+        inventarioLocal = [];
+        const listaHTML = document.getElementById("listaProductos");
+        const selectVenta = document.getElementById("selectProductoVenta");
+        
+        listaHTML.innerHTML = "";
+        const seleccionPrevia = selectVenta.value;
+        selectVenta.innerHTML = '<option value="">-- Seleccionar --</option>';
+
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            data.id = doc.id;
+            inventarioLocal.push(data);
+
+            // Fila Inventario
+            listaHTML.innerHTML += `
+                <tr>
+                    <td><strong>${data.nombre}</strong><br><small style="color:#888">${data.codigo}</small></td>
+                    <td class="${data.existencia < 5 ? 'low-stock' : ''}" style="text-align:center">${data.existencia}</td>
+                    <td>$${data.precioVenta}</td>
+                    <td><button style="color:red; border:none; background:none; font-size:16px;" onclick="borrarProducto('${data.id}')">🗑️</button></td>
+                </tr>`;
+
+            // Opción Venta
+            selectVenta.innerHTML += `<option value="${data.id}" data-precio="${data.precioVenta}">${data.nombre}</option>`;
+        });
+        
+        // Restaurar selección y re-asignar eventos de borrado
+        if(seleccionPrevia) selectVenta.value = seleccionPrevia;
+        window.borrarProducto = (id) => { if(confirm("¿Borrar?")) deleteDoc(doc(db, "juguetes", id)); };
+    });
+
+    // 2. ESCUCHAR VENTAS (Reportes)
+    // Ordenamos por fecha descendente (lo más nuevo arriba) y limitamos a las últimas 50
+    const qVentas = query(colVentas, orderBy("fecha", "desc"), limit(50));
+    
+    onSnapshot(qVentas, (snapshot) => {
+        const listaVentas = document.getElementById("listaVentas");
+        listaVentas.innerHTML = "";
+        let totalHoy = 0;
+        const hoyString = new Date().toLocaleDateString();
+
+        snapshot.forEach((doc) => {
+            const v = doc.data();
+            const fechaObj = v.fecha ? v.fecha.toDate() : new Date();
+            
+            // Sumar al total si es de hoy
+            if(fechaObj.toLocaleDateString() === hoyString) {
+                totalHoy += v.total;
+            }
+
+            listaVentas.innerHTML += `
+                <tr>
+                    <td>${fechaObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+                    <td>${v.nombreProducto}</td>
+                    <td style="text-align:center">${v.cantidad}</td>
+                    <td class="money">$${v.total}</td>
+                </tr>`;
+        });
+        document.getElementById("totalDia").innerText = `$${totalHoy.toFixed(2)}`;
+    });
+
+    // 3. LÓGICA DE INGRESO / REABASTECIMIENTO
+    window.verificarProducto = function() {
+        const codigo = document.getElementById('codigo').value;
+        const encontrado = inventarioLocal.find(j => j.codigo === codigo);
+        
+        const modoDiv = document.getElementById('modoInfo');
+        const btn = document.getElementById('btnGuardar');
+        const help = document.getElementById('stockActualHelp');
+
+        if (encontrado) {
+            // MODO EDICIÓN / REABASTECER
+            idProductoEditando = encontrado.id;
+            
+            document.getElementById('nombre').value = encontrado.nombre;
+            document.getElementById('precioVenta').value = encontrado.precioVenta;
+            document.getElementById('existencia').value = ''; // Se deja vacío para que ingrese SOLO lo nuevo
+            
+            modoDiv.innerText = `🔄 REABASTECIENDO: ${encontrado.nombre} (Stock actual: ${encontrado.existencia})`;
+            modoDiv.className = 'modo-editar';
+            modoDiv.style.display = 'block';
+            
+            btn.innerText = "🔄 Sumar Stock y Actualizar Precio";
+            btn.className = "action-btn btn-orange";
+            help.style.display = "block";
+        } else {
+            // MODO NUEVO
+            idProductoEditando = null;
+            modoDiv.innerText = "✨ REGISTRANDO NUEVO PRODUCTO";
+            modoDiv.className = 'modo-nuevo';
+            modoDiv.style.display = 'block';
+            
+            btn.innerText = "💾 Guardar Nuevo Producto";
+            btn.className = "action-btn btn-green";
+            help.style.display = "none";
+            
+            // Limpiar otros campos si cambiamos de código
+            if(document.getElementById('nombre').value === '') {
+                 // Solo limpiar si no había escrito algo manualmente
+            }
+        }
+    }
+
+    window.procesarIngreso = async function() {
+        const codigo = document.getElementById('codigo').value;
+        const nombre = document.getElementById('nombre').value;
+        const precio = parseFloat(document.getElementById('precioVenta').value);
+        const stockInput = parseInt(document.getElementById('existencia').value);
+
+        if(!codigo || !nombre || isNaN(precio) || isNaN(stockInput)) {
+            alert("Por favor completa todos los datos correctamente.");
+            return;
+        }
+
+        try {
+            if (idProductoEditando) {
+                // ACTUALIZAR EXISTENTE
+                const productoOld = inventarioLocal.find(j => j.id === idProductoEditando);
+                const nuevoStockTotal = productoOld.existencia + stockInput;
+                
+                await updateDoc(doc(db, "juguetes", idProductoEditando), {
+                    nombre: nombre,
+                    precioVenta: precio,
+                    existencia: nuevoStockTotal
+                });
+                alert(`✅ Stock actualizado. Nuevo total: ${nuevoStockTotal}`);
+            } else {
+                // CREAR NUEVO
+                if(inventarioLocal.some(j => j.codigo === codigo)) return alert("Error raro: El código ya existe.");
+                
+                await addDoc(colJuguetes, {
+                    codigo, nombre, precioVenta: precio, existencia: stockInput
+                });
+                alert("✅ Producto registrado correctamente");
+            }
+            limpiarInputs();
+        } catch (e) {
+            alert("Error: " + e.message);
+        }
+    }
+
+    // 4. LÓGICA DE VENTA Y REGISTRO EN HISTORIAL
+    window.venderEnNube = async function() {
+        const id = document.getElementById('selectProductoVenta').value;
+        const cantidad = parseInt(document.getElementById('cantidadVenta').value);
+        
+        if(!id) return alert("Selecciona un juguete");
+
+        const juguete = inventarioLocal.find(j => j.id === id);
+        
+        if(juguete.existencia >= cantidad) {
+            const totalVenta = juguete.precioVenta * cantidad;
+            
+            try {
+                // A) Restar inventario
+                await updateDoc(doc(db, "juguetes", id), {
+                    existencia: juguete.existencia - cantidad
+                });
+
+                // B) Guardar en historial (NUEVO)
+                await addDoc(colVentas, {
+                    fecha: serverTimestamp(), // Hora del servidor
+                    idProducto: id,
+                    nombreProducto: juguete.nombre,
+                    cantidad: cantidad,
+                    total: totalVenta
+                });
+
+                alert(`¡Venta exitosa! 💰 $${totalVenta}`);
+                document.getElementById('cantidadVenta').value = 1;
+                document.getElementById('totalVentaDisplay').innerText = "$0.00";
+            } catch (e) {
+                alert("Error procesando venta: " + e.message);
+            }
+        } else {
+            alert("❌ No hay suficiente stock para esta venta");
+        }
+    }
+
+    // Funciones visuales
+    window.calcularTotalPreview = function() {
+        const select = document.getElementById('selectProductoVenta');
+        const cantidad = document.getElementById('cantidadVenta').value;
+        const precio = select.options[select.selectedIndex]?.dataset.precio || 0;
+        const total = precio * cantidad;
+        document.getElementById('totalVentaDisplay').innerText = `$${total.toFixed(2)}`;
+    }
+
+    window.limpiarInputs = function() {
+        document.getElementById('codigo').value = '';
+        document.getElementById('nombre').value = '';
+        document.getElementById('precioVenta').value = '';
+        document.getElementById('existencia').value = '';
+        document.getElementById('modoInfo').style.display = 'none';
+        document.getElementById('btnGuardar').className = "action-btn btn-green";
+        document.getElementById('btnGuardar').innerText = "Guardar Nuevo Producto";
+        idProductoEditando = null;
+    }
+
+    window.filtrarInventarioLocal = function() {
+        const t = document.getElementById('buscador').value.toLowerCase();
+        document.querySelectorAll('#listaProductos tr').forEach(r => {
+            r.style.display = r.innerText.toLowerCase().includes(t) ? '' : 'none';
+        });
+    }
+
+    window.buscarYSeleccionar = function() {
+        const codigo = document.getElementById('buscadorVenta').value;
+        const encontrado = inventarioLocal.find(j => j.codigo === codigo);
+        if(encontrado) {
+            document.getElementById('selectProductoVenta').value = encontrado.id;
+            window.calcularTotalPreview();
+        }
+    }
+</script>
+
+<script>
+    // CÁMARA (Lógica externa para evitar conflictos de import)
+    let html5QrcodeScanner;
+    let inputActual = '';
+
+    function iniciarEscaneo(idInput) {
+        inputActual = idInput;
         document.getElementById('reader').style.display = 'block';
         document.getElementById('btnStopScan').style.display = 'block';
-
+        
         html5QrcodeScanner = new Html5Qrcode("reader");
-        
-        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-        
-        // Preferir cámara trasera
-        html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure);
-    }
-
-    function onScanSuccess(decodedText, decodedResult) {
-        // Reproducir sonido beep (opcional)
-        // let audio = new Audio('beep.mp3'); audio.play(); 
-
-        // Poner el texto en el input correspondiente
-        document.getElementById(inputDestinoActual).value = decodedText;
-        
-        // Acciones automáticas según donde estemos
-        if(inputDestinoActual === 'buscador') filtrarInventario();
-        if(inputDestinoActual === 'buscadorVenta') buscarParaVenta();
-
-        detenerEscaneo();
-        alert("Código detectado: " + decodedText);
-    }
-
-    function onScanFailure(error) {
-        // No hacer nada, la librería reporta errores constantemente mientras busca
+        html5QrcodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
+            (decodedText) => {
+                document.getElementById(inputActual).value = decodedText;
+                detenerEscaneo();
+                // Disparar eventos manualmente
+                if(inputActual === 'codigo') window.verificarProducto();
+                if(inputActual === 'buscadorVenta') window.buscarYSeleccionar();
+            }
+        );
     }
 
     function detenerEscaneo() {
@@ -156,91 +432,18 @@
                 document.getElementById('reader').style.display = 'none';
                 document.getElementById('btnStopScan').style.display = 'none';
                 html5QrcodeScanner.clear();
-            }).catch(err => console.error("Error al detener", err));
+            });
         }
     }
-
-    // --- LÓGICA DE INVENTARIO (Igual que antes) ---
-    let inventario = JSON.parse(localStorage.getItem('inventarioJuguetes')) || [];
-    actualizarVista(inventario);
-
-    function agregarProducto() {
-        const codigo = document.getElementById('codigo').value;
-        const nombre = document.getElementById('nombre').value;
-        const descripcion = document.getElementById('descripcion').value;
-        const pCompra = parseFloat(document.getElementById('precioCompra').value);
-        const pVenta = parseFloat(document.getElementById('precioVenta').value);
-        const existencia = parseInt(document.getElementById('existencia').value);
-
-        if(codigo && nombre && pVenta) {
-            if(inventario.some(p => p.codigo === codigo)) {
-                alert("Código ya existe."); return;
-            }
-            const nuevo = { id: Date.now(), codigo, nombre, descripcion, precioCompra: pCompra, precioVenta: pVenta, existencia };
-            inventario.push(nuevo);
-            guardarDatos(); limpiarFormulario(); actualizarVista(inventario);
-            alert("Guardado!");
-        } else { alert("Faltan datos."); }
-    }
-
-    function filtrarInventario() {
-        const texto = document.getElementById('buscador').value.toLowerCase();
-        const lista = inventario.filter(p => p.nombre.toLowerCase().includes(texto) || p.codigo.toLowerCase().includes(texto));
-        actualizarVista(lista);
-    }
-
-    function buscarParaVenta() {
-        const codigo = document.getElementById('buscadorVenta').value;
-        const producto = inventario.find(p => p.codigo === codigo);
-        if(producto) {
-            document.getElementById('selectProductoVenta').value = producto.id;
-            // No borramos el código inmediatamente para que el usuario vea qué escaneó
-        }
-    }
-
-    function realizarVenta() {
-        const id = parseInt(document.getElementById('selectProductoVenta').value);
-        const cant = parseInt(document.getElementById('cantidadVenta').value);
-        const idx = inventario.findIndex(p => p.id === id);
-
-        if (idx > -1 && inventario[idx].existencia >= cant) {
-            inventario[idx].existencia -= cant;
-            guardarDatos(); actualizarVista(inventario);
-            alert(`Venta: $${inventario[idx].precioVenta * cant}`);
-            document.getElementById('cantidadVenta').value = 1;
-            document.getElementById('buscadorVenta').value = ''; // Limpiar buscador
-        } else { alert("Error en venta."); }
-    }
-
-    function guardarDatos() { localStorage.setItem('inventarioJuguetes', JSON.stringify(inventario)); }
     
-    function actualizarVista(lista) {
-        const tbody = document.getElementById('listaProductos'); tbody.innerHTML = '';
-        lista.forEach(p => {
-            tbody.innerHTML += `<tr><td>${p.codigo}</td><td>${p.nombre}</td><td class="${p.existencia<5?'low-stock':''}">${p.existencia}</td><td>$${p.precioVenta}</td><td><button onclick="eliminar(${p.id})">❌</button></td></tr>`;
-        });
-        
-        const select = document.getElementById('selectProductoVenta');
-        const prev = select.value;
-        select.innerHTML = '<option value="">-- Elegir --</option>';
-        inventario.forEach(p => select.innerHTML += `<option value="${p.id}">${p.nombre} ($${p.precioVenta})</option>`);
-        select.value = prev;
-    }
-
-    function eliminar(id) {
-        if(confirm('¿Borrar?')) { inventario = inventario.filter(p => p.id !== id); guardarDatos(); actualizarVista(inventario); }
-    }
-    
-    function limpiarFormulario() {
-        document.querySelectorAll('#inventario input').forEach(i => i.value = '');
-    }
-
     function mostrarSeccion(sec) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(sec).classList.add('active');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        if(sec === 'inventario') document.querySelector('.tabs button:nth-child(1)').classList.add('active');
-        else document.querySelector('.tabs button:nth-child(2)').classList.add('active');
+        
+        // Lógica de botones activos
+        const map = {'inventario':0, 'venta':1, 'reportes':2};
+        document.querySelectorAll('.tab-btn')[map[sec]].classList.add('active');
     }
 </script>
 
