@@ -3,160 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería Pro 🚀</title>
+    <title>Juguetería Master 📊</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* ESTILOS (Mejorados) */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #1a73e8; font-size: 24px; margin-bottom: 20px; }
+        /* ESTILOS (Mismos de la v4 con mejoras para botones de exportar) */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
+        .container { max-width: 950px; margin: 0 auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 10px; font-size: 1.5rem; }
         
-        /* Navegación */
-        .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; background: #f1f3f4; padding: 5px; border-radius: 25px; }
-        .tab-btn { flex: 1; padding: 12px; cursor: pointer; background: transparent; border: none; border-radius: 20px; font-weight: 600; color: #5f6368; transition: 0.3s; }
-        .tab-btn.active { background: #fff; color: #1a73e8; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #e8eaed; padding: 5px; border-radius: 12px; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 12px 10px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; }
+        .tab-btn.active { background: white; color: #1a73e8; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        /* Inputs y Botones */
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: #444; font-size: 14px; }
-        input, select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; background: #f8f9fa; }
-        input:focus { border-color: #1a73e8; outline: none; background: #fff; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         
+        .row-inputs { display: flex; gap: 10px; }
+        .half { flex: 1; }
         .input-group { display: flex; gap: 8px; }
-        .btn-scan { background: #5f6368; color: white; border: none; border-radius: 10px; padding: 0 15px; font-size: 22px; cursor: pointer; }
+        .btn-scan { background: #5f6368; color: white; border: none; border-radius: 8px; padding: 0 15px; font-size: 20px; }
         
-        button.action-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; color: white; transition: transform 0.1s; }
-        button.action-btn:active { transform: scale(0.98); }
+        button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 10px; cursor: pointer; }
+        .btn-green { background: #34a853; }
+        .btn-blue { background: #1a73e8; }
+        .btn-orange { background: #fbbc04; color: #222 !important; }
         
-        /* Colores de botones */
-        .btn-green { background: #34a853; } /* Guardar */
-        .btn-blue { background: #1a73e8; }  /* Vender */
-        .btn-orange { background: #fbbc04; color: #333 !important; } /* Actualizar */
+        /* Botones de Exportar */
+        .btn-export { background: #188038; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 5px; margin-bottom: 10px; width: 100%; justify-content: center; }
+        .btn-export:hover { background: #146c2e; }
 
-        /* Cámara */
-        #reader { width: 100%; margin-bottom: 15px; display: none; border-radius: 12px; overflow: hidden; border: 3px solid #1a73e8; }
+        #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; }
+        .table-container { overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
+        th { background: #f1f3f4; padding: 10px; text-align: left; color: #444; border-bottom: 2px solid #ddd; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
+        .profit { color: #137333; font-weight: bold; }
+        .cost { color: #ea4335; }
+        .modo-editar { background: #fff3e0; color: #e65100; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: none; text-align: center; font-weight: bold; border: 1px solid #ffe0b2; }
         
-        /* Tablas */
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; min-width: 500px; }
-        th { background-color: #f8f9fa; padding: 12px; text-align: left; color: #555; border-bottom: 2px solid #ddd; }
-        td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        
-        /* Estados */
-        .section { display: none; animation: fadeIn 0.3s; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .low-stock { color: #d93025; font-weight: 800; background: #fce8e6; padding: 2px 6px; border-radius: 4px; }
-        .money { color: #188038; font-weight: bold; }
-        
-        /* Info Mode (Para saber si estamos editando o creando) */
-        #modoInfo { display: none; padding: 10px; margin-bottom: 10px; border-radius: 8px; text-align: center; font-weight: bold; }
-        .modo-nuevo { background-color: #e6f4ea; color: #137333; }
-        .modo-editar { background-color: #fef7e0; color: #b06000; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🧸 Juguetería Camaya</h1>
+    <h1>🧸 Juguetería Master</h1>
 
     <div id="reader"></div>
-    <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:#ea4335; color:white; padding:12px; margin-bottom:15px; border:none; border-radius:10px;">Cerrar Cámara ❌</button>
+    <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:#ea4335; color:white; padding:10px; margin-bottom:10px; border:none; border-radius:8px;">Cerrar Cámara</button>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="mostrarSeccion('inventario')">📦 Inventario</button>
         <button class="tab-btn" onclick="mostrarSeccion('venta')">💰 Venta</button>
-        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📊 Historial</button>
+        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📊 Reportes</button>
+        <button class="tab-btn" onclick="mostrarSeccion('movimientos')">🚚 Historial</button>
     </div>
 
     <div id="inventario" class="section active">
-        
-        <div id="modoInfo"></div> <div class="form-group">
+        <div id="modoInfo" class="modo-editar"></div>
+
+        <button class="btn-export" onclick="exportarInventario()">📥 Descargar Inventario Completo (Excel)</button>
+
+        <div class="form-group">
             <label>Código de Barras:</label>
             <div class="input-group">
-                <input type="text" id="codigo" placeholder="Escanea para crear o reabastecer" onchange="verificarProducto()">
+                <input type="text" id="codigo" placeholder="Escanear..." onchange="verificarProducto()">
                 <button class="btn-scan" onclick="iniciarEscaneo('codigo')">📷</button>
             </div>
         </div>
         
-        <div class="form-group">
-            <label>Nombre del Juguete:</label>
-            <input type="text" id="nombre" placeholder="Ej. Pelota Gigante">
+        <div class="form-group"><label>Nombre:</label><input type="text" id="nombre"></div>
+        <div class="row-inputs">
+            <div class="form-group half"><label>Costo Compra ($):</label><input type="number" id="precioCompra" step="0.50"></div>
+            <div class="form-group half"><label>Precio Venta ($):</label><input type="number" id="precioVenta" step="0.50"></div>
         </div>
-        
-        <div class="form-group">
-            <label>Precio de Venta ($):</label>
-            <input type="number" id="precioVenta" placeholder="0.00">
-        </div>
+        <div class="form-group"><label>Cantidad a Ingresar:</label><input type="number" id="existencia"></div>
 
-        <div class="form-group">
-            <label id="labelExistencia">Cantidad a Ingresar:</label>
-            <input type="number" id="existencia" placeholder="Cantidad que llegó">
-            <small id="stockActualHelp" style="display:none; color:#666;">(Se sumará al stock actual)</small>
-        </div>
+        <button id="btnGuardar" class="action-btn btn-green" onclick="procesarIngreso()">Guardar Producto</button>
+        <button class="action-btn" style="background:#9aa0a6; margin-top:10px;" onclick="limpiarInputs()">Limpiar</button>
 
-        <button id="btnGuardar" class="action-btn btn-green" onclick="procesarIngreso()">Guardar Nuevo Producto</button>
-        <button class="action-btn" style="background:#888; margin-top:10px;" onclick="limpiarInputs()">Limpiar Formulario</button>
-
-        <h3>Inventario Actual</h3>
-        <div class="input-group" style="margin-bottom:10px;">
-             <input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarInventarioLocal()">
-        </div>
-        
+        <h3 style="margin-top:20px">Inventario Actual</h3>
+        <input type="text" id="buscador" placeholder="🔍 Buscar..." onkeyup="filtrarInventarioLocal()" style="margin-bottom:10px;">
         <div class="table-container">
             <table id="tablaInventario">
-                <thead><tr><th>Producto</th><th>Stock</th><th>Precio</th><th>X</th></tr></thead>
-                <tbody id="listaProductos"></tbody>
+                <thead><tr><th>Producto</th><th>Stock</th><th>Costo</th><th>Venta</th><th>Acción</th></tr></thead>
+                <tbody id="tbodyInventario"></tbody>
             </table>
         </div>
     </div>
 
     <div id="venta" class="section">
-        <div class="form-group" style="text-align:center; padding:20px; background:#e8f0fe; border-radius:10px;">
-            <h2 id="totalVentaDisplay" style="margin:0; color:#1a73e8; font-size:40px;">$0.00</h2>
-            <small>Total a Cobrar</small>
+        <div style="text-align:center; padding:15px; background:#e8f0fe; border-radius:10px; margin-bottom:15px;">
+            <h2 id="totalVentaDisplay" style="margin:0; color:#1a73e8; font-size:36px;">$0.00</h2>
         </div>
-
         <div class="form-group">
-            <label>Escanear Producto:</label>
             <div class="input-group">
-                <input type="text" id="buscadorVenta" placeholder="Código..." onchange="buscarYSeleccionar()">
+                <input type="text" id="buscadorVenta" placeholder="Escanear para vender..." onchange="buscarYSeleccionar()">
                 <button class="btn-scan" onclick="iniciarEscaneo('buscadorVenta')">📷</button>
             </div>
         </div>
-
-        <div class="form-group">
-            <select id="selectProductoVenta" onchange="calcularTotalPreview()">
-                <option value="">-- Esperando producto --</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Cantidad:</label>
-            <input type="number" id="cantidadVenta" value="1" min="1" onchange="calcularTotalPreview()">
-        </div>
-
-        <button class="action-btn btn-blue" onclick="venderEnNube()">✅ Confirmar Venta</button>
+        <div class="form-group"><select id="selectProductoVenta" onchange="calcularTotalPreview()"><option value="">-- Seleccionar --</option></select></div>
+        <div class="form-group"><label>Cantidad:</label><input type="number" id="cantidadVenta" value="1" min="1" onchange="calcularTotalPreview()"></div>
+        <button class="action-btn btn-blue" onclick="venderEnNube()">Confirmar Venta</button>
     </div>
 
     <div id="reportes" class="section">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-            <h3>Ventas Recientes</h3>
-            <div style="text-align:right;">
-                <small>Total Vendido Hoy</small><br>
-                <span id="totalDia" class="money" style="font-size:20px;">$0.00</span>
-            </div>
-        </div>
+        
+        <button class="btn-export" onclick="exportarVentas()">📥 Descargar Historial de Ventas (Excel)</button>
 
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:#e6f4ea; padding:10px; border-radius:8px;">
+            <div><strong>Venta Hoy:</strong><br><span id="totalDia" style="font-size:18px;">$0.00</span></div>
+            <div style="text-align:right;"><strong>Ganancia Hoy:</strong><br><span id="gananciaDia" class="profit" style="font-size:18px;">$0.00</span></div>
+        </div>
         <div class="table-container">
             <table>
-                <thead><tr><th>Hora</th><th>Producto</th><th>Cant.</th><th>Total</th></tr></thead>
+                <thead><tr><th>Hora</th><th>Producto</th><th>Total</th><th>Ganancia</th></tr></thead>
                 <tbody id="listaVentas"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="movimientos" class="section">
+        <h3>Historial de Movimientos</h3>
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Fecha</th><th>Producto</th><th>Acción</th><th>Detalle</th></tr></thead>
+                <tbody id="listaMovimientos"></tbody>
             </table>
         </div>
     </div>
@@ -164,288 +143,193 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    // ⚠️⚠️ PEGA TU CONFIGURACIÓN DE FIREBASE AQUÍ ⚠️⚠️
+    // ------------------------------------------------------------------
+    // ⚠️⚠️ PEGA TUS LLAVES DE FIREBASE AQUÍ ⚠️⚠️
     const firebaseConfig = {
-  apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
-  authDomain: "juguetescamaya.firebaseapp.com",
-  projectId: "juguetescamaya",
-  storageBucket: "juguetescamaya.firebasestorage.app",
-  messagingSenderId: "645609260652",
-  appId: "1:645609260652:web:6bed60f94237733086fa49"
+    apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
+    authDomain: "juguetescamaya.firebaseapp.com",
+    projectId: "juguetescamaya",
+    storageBucket: "juguetescamaya.firebasestorage.app",
+    messagingSenderId: "645609260652",
+    appId: "1:645609260652:web:6bed60f94237733086fa49"
 };
+    // ------------------------------------------------------------------
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    
-    // Referencias a colecciones
     const colJuguetes = collection(db, "juguetes");
     const colVentas = collection(db, "ventas");
+    const colMovimientos = collection(db, "movimientos");
 
     let inventarioLocal = [];
-    let idProductoEditando = null; // Para saber si estamos reabasteciendo
+    let idEditando = null;
 
-    // 1. ESCUCHAR INVENTARIO (Lectura)
+    // 1. LEER INVENTARIO
     onSnapshot(colJuguetes, (snapshot) => {
         inventarioLocal = [];
-        const listaHTML = document.getElementById("listaProductos");
-        const selectVenta = document.getElementById("selectProductoVenta");
-        
-        listaHTML.innerHTML = "";
-        const seleccionPrevia = selectVenta.value;
-        selectVenta.innerHTML = '<option value="">-- Seleccionar --</option>';
+        const tbody = document.getElementById("tbodyInventario");
+        const select = document.getElementById("selectProductoVenta");
+        const prevSelect = select.value;
+
+        tbody.innerHTML = "";
+        select.innerHTML = '<option value="">-- Seleccionar --</option>';
 
         snapshot.forEach((doc) => {
-            const data = doc.data();
-            data.id = doc.id;
-            inventarioLocal.push(data);
+            const d = doc.data();
+            d.id = doc.id;
+            d.precioCompra = d.precioCompra || 0; 
+            inventarioLocal.push(d);
 
-            // Fila Inventario
-            listaHTML.innerHTML += `
-                <tr>
-                    <td><strong>${data.nombre}</strong><br><small style="color:#888">${data.codigo}</small></td>
-                    <td class="${data.existencia < 5 ? 'low-stock' : ''}" style="text-align:center">${data.existencia}</td>
-                    <td>$${data.precioVenta}</td>
-                    <td><button style="color:red; border:none; background:none; font-size:16px;" onclick="borrarProducto('${data.id}')">🗑️</button></td>
-                </tr>`;
-
-            // Opción Venta
-            selectVenta.innerHTML += `<option value="${data.id}" data-precio="${data.precioVenta}">${data.nombre}</option>`;
+            tbody.innerHTML += `<tr><td>${d.nombre}<br><small>${d.codigo}</small></td><td style="font-weight:bold">${d.existencia}</td><td class="cost">$${d.precioCompra}</td><td>$${d.precioVenta}</td><td><button onclick="borrarProducto('${d.id}')">🗑️</button></td></tr>`;
+            select.innerHTML += `<option value="${d.id}" data-precio="${d.precioVenta}">${d.nombre}</option>`;
         });
-        
-        // Restaurar selección y re-asignar eventos de borrado
-        if(seleccionPrevia) selectVenta.value = seleccionPrevia;
+        if(prevSelect) select.value = prevSelect;
         window.borrarProducto = (id) => { if(confirm("¿Borrar?")) deleteDoc(doc(db, "juguetes", id)); };
     });
 
-    // 2. ESCUCHAR VENTAS (Reportes)
-    // Ordenamos por fecha descendente (lo más nuevo arriba) y limitamos a las últimas 50
+    // 2. LEER VENTAS
     const qVentas = query(colVentas, orderBy("fecha", "desc"), limit(50));
-    
     onSnapshot(qVentas, (snapshot) => {
-        const listaVentas = document.getElementById("listaVentas");
-        listaVentas.innerHTML = "";
-        let totalHoy = 0;
-        const hoyString = new Date().toLocaleDateString();
+        const tbody = document.getElementById("listaVentas");
+        tbody.innerHTML = "";
+        let sumaVenta = 0, sumaGanancia = 0;
+        const hoy = new Date().toLocaleDateString();
 
         snapshot.forEach((doc) => {
             const v = doc.data();
-            const fechaObj = v.fecha ? v.fecha.toDate() : new Date();
-            
-            // Sumar al total si es de hoy
-            if(fechaObj.toLocaleDateString() === hoyString) {
-                totalHoy += v.total;
-            }
-
-            listaVentas.innerHTML += `
-                <tr>
-                    <td>${fechaObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-                    <td>${v.nombreProducto}</td>
-                    <td style="text-align:center">${v.cantidad}</td>
-                    <td class="money">$${v.total}</td>
-                </tr>`;
+            const fecha = v.fecha ? v.fecha.toDate() : new Date();
+            const ganancia = v.gananciaTotal || 0;
+            if(fecha.toLocaleDateString() === hoy) { sumaVenta += v.total; sumaGanancia += ganancia; }
+            tbody.innerHTML += `<tr><td>${fecha.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td><td>${v.nombreProducto} <small>x${v.cantidad}</small></td><td>$${v.total}</td><td class="profit">$${ganancia.toFixed(2)}</td></tr>`;
         });
-        document.getElementById("totalDia").innerText = `$${totalHoy.toFixed(2)}`;
+        document.getElementById("totalDia").innerText = `$${sumaVenta.toFixed(2)}`;
+        document.getElementById("gananciaDia").innerText = `$${sumaGanancia.toFixed(2)}`;
     });
 
-    // 3. LÓGICA DE INGRESO / REABASTECIMIENTO
-    window.verificarProducto = function() {
-        const codigo = document.getElementById('codigo').value;
-        const encontrado = inventarioLocal.find(j => j.codigo === codigo);
-        
-        const modoDiv = document.getElementById('modoInfo');
-        const btn = document.getElementById('btnGuardar');
-        const help = document.getElementById('stockActualHelp');
+    // 3. MOVIMIENTOS
+    onSnapshot(query(colMovimientos, orderBy("fecha", "desc"), limit(20)), (snapshot) => {
+        const tbody = document.getElementById("listaMovimientos"); tbody.innerHTML = "";
+        snapshot.forEach((doc) => {
+            const m = doc.data();
+            tbody.innerHTML += `<tr><td>${m.fecha ? m.fecha.toDate().toLocaleDateString() : ''}</td><td>${m.nombre}</td><td>${m.tipo}</td><td>${m.detalle}</td></tr>`;
+        });
+    });
 
-        if (encontrado) {
-            // MODO EDICIÓN / REABASTECER
-            idProductoEditando = encontrado.id;
-            
-            document.getElementById('nombre').value = encontrado.nombre;
-            document.getElementById('precioVenta').value = encontrado.precioVenta;
-            document.getElementById('existencia').value = ''; // Se deja vacío para que ingrese SOLO lo nuevo
-            
-            modoDiv.innerText = `🔄 REABASTECIENDO: ${encontrado.nombre} (Stock actual: ${encontrado.existencia})`;
-            modoDiv.className = 'modo-editar';
-            modoDiv.style.display = 'block';
-            
-            btn.innerText = "🔄 Sumar Stock y Actualizar Precio";
-            btn.className = "action-btn btn-orange";
-            help.style.display = "block";
+    // 4. LÓGICA DE EXPORTACIÓN (NUEVO 🚀)
+    window.exportarInventario = function() {
+        let csv = "Codigo,Nombre,Stock,Costo Compra,Precio Venta,Valor Total Costo,Valor Total Venta\n";
+        inventarioLocal.forEach(p => {
+            const valCosto = (p.precioCompra || 0) * p.existencia;
+            const valVenta = p.precioVenta * p.existencia;
+            csv += `"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra || 0},${p.precioVenta},${valCosto},${valVenta}\n`;
+        });
+        descargarCSV(csv, "Inventario_Jugueteria.csv");
+    }
+
+    window.exportarVentas = async function() {
+        if(!confirm("Esto descargará TODAS las ventas históricas. ¿Continuar?")) return;
+        
+        // Consultamos todas las ventas (sin límite de 50)
+        const snapshot = await getDocs(query(colVentas, orderBy("fecha", "desc")));
+        let csv = "Fecha,Hora,Producto,Cantidad,Costo Unit,Venta Unit,Total Venta,Ganancia Total\n";
+        
+        snapshot.forEach(doc => {
+            const v = doc.data();
+            const f = v.fecha ? v.fecha.toDate() : new Date();
+            csv += `"${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${v.nombreProducto}",${v.cantidad},${v.costoUnitarioSnapshot || 0},${v.precioVentaUnitario},${v.total},${v.gananciaTotal || 0}\n`;
+        });
+        descargarCSV(csv, "Reporte_Ventas.csv");
+    }
+
+    function descargarCSV(csvContent, fileName) {
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // 5. INGRESO / VENTA (Igual que antes)
+    window.verificarProducto = function() {
+        const cod = document.getElementById('codigo').value;
+        const prod = inventarioLocal.find(j => j.codigo === cod);
+        if (prod) {
+            idEditando = prod.id;
+            document.getElementById('nombre').value = prod.nombre;
+            document.getElementById('precioCompra').value = prod.precioCompra; 
+            document.getElementById('precioVenta').value = prod.precioVenta;
+            document.getElementById('existencia').value = ''; 
+            document.getElementById('modoInfo').innerText = `🔄 EDITANDO: ${prod.nombre}`;
+            document.getElementById('modoInfo').style.display = 'block';
+            document.getElementById('btnGuardar').className = "action-btn btn-orange";
+            document.getElementById('btnGuardar').innerText = "Actualizar";
         } else {
-            // MODO NUEVO
-            idProductoEditando = null;
-            modoDiv.innerText = "✨ REGISTRANDO NUEVO PRODUCTO";
-            modoDiv.className = 'modo-nuevo';
-            modoDiv.style.display = 'block';
-            
-            btn.innerText = "💾 Guardar Nuevo Producto";
-            btn.className = "action-btn btn-green";
-            help.style.display = "none";
-            
-            // Limpiar otros campos si cambiamos de código
-            if(document.getElementById('nombre').value === '') {
-                 // Solo limpiar si no había escrito algo manualmente
-            }
+            idEditando = null;
+            document.getElementById('modoInfo').style.display = 'none';
+            document.getElementById('btnGuardar').className = "action-btn btn-green";
+            document.getElementById('btnGuardar').innerText = "Guardar Nuevo";
+            if(document.getElementById('nombre').value==='') document.getElementById('precioCompra').value='';
         }
     }
 
     window.procesarIngreso = async function() {
         const codigo = document.getElementById('codigo').value;
         const nombre = document.getElementById('nombre').value;
-        const precio = parseFloat(document.getElementById('precioVenta').value);
-        const stockInput = parseInt(document.getElementById('existencia').value);
+        const pCompra = parseFloat(document.getElementById('precioCompra').value);
+        const pVenta = parseFloat(document.getElementById('precioVenta').value);
+        const cantidad = parseInt(document.getElementById('existencia').value);
 
-        if(!codigo || !nombre || isNaN(precio) || isNaN(stockInput)) {
-            alert("Por favor completa todos los datos correctamente.");
-            return;
-        }
+        if(!codigo || !nombre || isNaN(pCompra) || isNaN(pVenta) || isNaN(cantidad)) return alert("Datos incompletos");
 
         try {
-            if (idProductoEditando) {
-                // ACTUALIZAR EXISTENTE
-                const productoOld = inventarioLocal.find(j => j.id === idProductoEditando);
-                const nuevoStockTotal = productoOld.existencia + stockInput;
-                
-                await updateDoc(doc(db, "juguetes", idProductoEditando), {
-                    nombre: nombre,
-                    precioVenta: precio,
-                    existencia: nuevoStockTotal
-                });
-                alert(`✅ Stock actualizado. Nuevo total: ${nuevoStockTotal}`);
+            if (idEditando) {
+                const old = inventarioLocal.find(j => j.id === idEditando);
+                const nuevoS = old.existencia + cantidad;
+                await updateDoc(doc(db, "juguetes", idEditando), { nombre, precioCompra: pCompra, precioVenta: pVenta, existencia: nuevoS });
+                await addDoc(colMovimientos, { fecha: serverTimestamp(), tipo: 'REABASTECIMIENTO', nombre, detalle: `Stock anterior ${old.existencia} -> Nuevo ${nuevoS}` });
+                alert("Actualizado ✅");
             } else {
-                // CREAR NUEVO
-                if(inventarioLocal.some(j => j.codigo === codigo)) return alert("Error raro: El código ya existe.");
-                
-                await addDoc(colJuguetes, {
-                    codigo, nombre, precioVenta: precio, existencia: stockInput
-                });
-                alert("✅ Producto registrado correctamente");
+                if(inventarioLocal.some(j => j.codigo === codigo)) return alert("Código repetido");
+                await addDoc(colJuguetes, { codigo, nombre, precioCompra: pCompra, precioVenta: pVenta, existencia: cantidad });
+                await addDoc(colMovimientos, { fecha: serverTimestamp(), tipo: 'ALTA NUEVA', nombre, detalle: `Inicial: ${cantidad}` });
+                alert("Creado ✅");
             }
             limpiarInputs();
-        } catch (e) {
-            alert("Error: " + e.message);
-        }
+        } catch (e) { alert("Error: " + e.message); }
     }
 
-    // 4. LÓGICA DE VENTA Y REGISTRO EN HISTORIAL
     window.venderEnNube = async function() {
         const id = document.getElementById('selectProductoVenta').value;
-        const cantidad = parseInt(document.getElementById('cantidadVenta').value);
+        const cant = parseInt(document.getElementById('cantidadVenta').value);
+        if(!id) return alert("Selecciona producto");
+        const prod = inventarioLocal.find(j => j.id === id);
         
-        if(!id) return alert("Selecciona un juguete");
-
-        const juguete = inventarioLocal.find(j => j.id === id);
-        
-        if(juguete.existencia >= cantidad) {
-            const totalVenta = juguete.precioVenta * cantidad;
-            
-            try {
-                // A) Restar inventario
-                await updateDoc(doc(db, "juguetes", id), {
-                    existencia: juguete.existencia - cantidad
-                });
-
-                // B) Guardar en historial (NUEVO)
-                await addDoc(colVentas, {
-                    fecha: serverTimestamp(), // Hora del servidor
-                    idProducto: id,
-                    nombreProducto: juguete.nombre,
-                    cantidad: cantidad,
-                    total: totalVenta
-                });
-
-                alert(`¡Venta exitosa! 💰 $${totalVenta}`);
-                document.getElementById('cantidadVenta').value = 1;
-                document.getElementById('totalVentaDisplay').innerText = "$0.00";
-            } catch (e) {
-                alert("Error procesando venta: " + e.message);
-            }
-        } else {
-            alert("❌ No hay suficiente stock para esta venta");
-        }
+        if(prod.existencia >= cant) {
+            const total = prod.precioVenta * cant;
+            const ganancia = total - ((prod.precioCompra||0) * cant);
+            await updateDoc(doc(db, "juguetes", id), { existencia: prod.existencia - cant });
+            await addDoc(colVentas, { fecha: serverTimestamp(), idProducto: id, nombreProducto: prod.nombre, cantidad: cant, precioVentaUnitario: prod.precioVenta, costoUnitarioSnapshot: prod.precioCompra||0, total: total, gananciaTotal: ganancia });
+            alert(`Vendido: $${total}`);
+            document.getElementById('cantidadVenta').value = 1; document.getElementById('totalVentaDisplay').innerText = "$0.00";
+        } else { alert("Stock insuficiente"); }
     }
 
-    // Funciones visuales
-    window.calcularTotalPreview = function() {
-        const select = document.getElementById('selectProductoVenta');
-        const cantidad = document.getElementById('cantidadVenta').value;
-        const precio = select.options[select.selectedIndex]?.dataset.precio || 0;
-        const total = precio * cantidad;
-        document.getElementById('totalVentaDisplay').innerText = `$${total.toFixed(2)}`;
-    }
-
-    window.limpiarInputs = function() {
-        document.getElementById('codigo').value = '';
-        document.getElementById('nombre').value = '';
-        document.getElementById('precioVenta').value = '';
-        document.getElementById('existencia').value = '';
-        document.getElementById('modoInfo').style.display = 'none';
-        document.getElementById('btnGuardar').className = "action-btn btn-green";
-        document.getElementById('btnGuardar').innerText = "Guardar Nuevo Producto";
-        idProductoEditando = null;
-    }
-
-    window.filtrarInventarioLocal = function() {
-        const t = document.getElementById('buscador').value.toLowerCase();
-        document.querySelectorAll('#listaProductos tr').forEach(r => {
-            r.style.display = r.innerText.toLowerCase().includes(t) ? '' : 'none';
-        });
-    }
-
-    window.buscarYSeleccionar = function() {
-        const codigo = document.getElementById('buscadorVenta').value;
-        const encontrado = inventarioLocal.find(j => j.codigo === codigo);
-        if(encontrado) {
-            document.getElementById('selectProductoVenta').value = encontrado.id;
-            window.calcularTotalPreview();
-        }
-    }
-</script>
-
-<script>
-    // CÁMARA (Lógica externa para evitar conflictos de import)
-    let html5QrcodeScanner;
-    let inputActual = '';
-
-    function iniciarEscaneo(idInput) {
-        inputActual = idInput;
-        document.getElementById('reader').style.display = 'block';
-        document.getElementById('btnStopScan').style.display = 'block';
-        
-        html5QrcodeScanner = new Html5Qrcode("reader");
-        html5QrcodeScanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-            (decodedText) => {
-                document.getElementById(inputActual).value = decodedText;
-                detenerEscaneo();
-                // Disparar eventos manualmente
-                if(inputActual === 'codigo') window.verificarProducto();
-                if(inputActual === 'buscadorVenta') window.buscarYSeleccionar();
-            }
-        );
-    }
-
-    function detenerEscaneo() {
-        if (html5QrcodeScanner) {
-            html5QrcodeScanner.stop().then(() => {
-                document.getElementById('reader').style.display = 'none';
-                document.getElementById('btnStopScan').style.display = 'none';
-                html5QrcodeScanner.clear();
-            });
-        }
-    }
+    window.limpiarInputs = function() { document.querySelectorAll('#inventario input').forEach(i => i.value = ''); document.getElementById('modoInfo').style.display = 'none'; idEditando=null; document.getElementById('btnGuardar').className="action-btn btn-green"; document.getElementById('btnGuardar').innerText="Guardar Nuevo"; }
+    window.calcularTotalPreview = function() { const s=document.getElementById('selectProductoVenta'); const p=s.options[s.selectedIndex]?.dataset.precio||0; document.getElementById('totalVentaDisplay').innerText=`$${(p*document.getElementById('cantidadVenta').value).toFixed(2)}`; }
+    window.filtrarInventarioLocal = function() { const t=document.getElementById('buscador').value.toLowerCase(); document.querySelectorAll('#tbodyInventario tr').forEach(r => r.style.display=r.innerText.toLowerCase().includes(t)?'':'none'); }
+    window.buscarYSeleccionar = function() { const c=document.getElementById('buscadorVenta').value; const f=inventarioLocal.find(j=>j.codigo===c); if(f){ document.getElementById('selectProductoVenta').value=f.id; window.calcularTotalPreview(); } }
+    window.mostrarSeccion = function(s){ document.querySelectorAll('.section').forEach(x=>{x.classList.remove('active');x.style.display='none'}); document.getElementById(s).style.display='block'; document.getElementById(s).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); }
     
-    function mostrarSeccion(sec) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(sec).classList.add('active');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        // Lógica de botones activos
-        const map = {'inventario':0, 'venta':1, 'reportes':2};
-        document.querySelectorAll('.tab-btn')[map[sec]].classList.add('active');
-    }
+    // CAMARA
+    let sc; let inp;
+    window.iniciarEscaneo=function(i){ inp=i; document.getElementById('reader').style.display='block'; document.getElementById('btnStopScan').style.display='block'; sc=new Html5Qrcode("reader"); sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{ document.getElementById(inp).value=t; detenerEscaneo(); if(inp==='codigo')verificarProducto(); if(inp==='buscadorVenta')buscarYSeleccionar(); }); }
+    window.detenerEscaneo=function(){ if(sc){ sc.stop().then(()=>{ document.getElementById('reader').style.display='none'; document.getElementById('btnStopScan').style.display='none'; sc.clear(); }); } }
 </script>
-
 </body>
 </html>
