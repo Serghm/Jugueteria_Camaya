@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería PRO v9.2 (Debug) 🛠️</title>
+    <title>Juguetería Camaya 💳</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
@@ -12,15 +12,19 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* ESTILOS (Mismos de la v9) */
+        /* ESTILOS GENERALES */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; padding-bottom: 70px; }
         .container { max-width: 1000px; margin: 0 auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .header-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
         .app-logo { width: 50px; height: 50px; object-fit: contain; }
         h1 { margin: 0; color: #1a73e8; font-size: 1.8rem; }
+        
+        /* NAVEGACIÓN */
         .tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #e8eaed; padding: 5px; border-radius: 12px; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; border-radius: 8px; }
         .tab-btn.active { background: white; color: #1a73e8; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        /* INPUTS */
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 0.9rem; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #f9f9f9; }
@@ -28,6 +32,8 @@
         .half { flex: 1; }
         .input-group { display: flex; gap: 8px; }
         .btn-scan { background: #5f6368; color: white; border: none; border-radius: 8px; padding: 0 15px; font-size: 20px; cursor: pointer; }
+        
+        /* BOTONES */
         button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 5px; cursor: pointer; }
         .btn-green { background: #34a853; }
         .btn-blue { background: #1a73e8; }
@@ -35,21 +41,33 @@
         .btn-purple { background: #673ab7; }
         .btn-export { background: #188038; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; margin-bottom: 10px; cursor: pointer; font-size: 14px; }
         .btn-icon { border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 16px; color: white; }
+        
+        /* VISUALES ESPECÍFICOS */
         .cart-container { border: 2px dashed #ccc; padding: 15px; border-radius: 10px; background: #fafafa; margin-top: 15px; }
         .cart-total { font-size: 26px; color: #1a73e8; font-weight: 800; text-align: right; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px; }
         .table-container { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; background: white; }
         th { background: #f1f3f4; padding: 12px; text-align: left; border-bottom: 2px solid #ddd; color: #555; }
         td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        
+        /* TICKETS Y ACORDEÓN */
         .ticket-row { cursor: pointer; transition: background 0.2s; }
         .ticket-row:hover { background-color: #f1f3f4; }
         .ticket-details-row { display: none; background-color: #fafafa; border-left: 4px solid #1a73e8; }
         .detail-content { padding: 15px; font-size: 14px; color: #555; }
         .rotated { transform: rotate(90deg); display:inline-block; transition: 0.3s; }
+        
+        /* LISTA DE PAGOS (NUEVO ESTILO) */
+        .payment-list { list-style: none; padding: 0; margin: 10px 0; }
+        .payment-list li { background: #fff; border-bottom: 1px solid #eee; padding: 8px; display: flex; justify-content: space-between; }
+        .payment-list li:first-child { border-top: 1px solid #eee; }
+
+        /* TARJETAS COBRANZA */
         .debt-card { background: #fff8e1; border: 1px solid #ffecb3; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .progress-bar { background: #e0e0e0; height: 12px; border-radius: 6px; margin: 10px 0; overflow: hidden; }
         .progress-fill { background: #4caf50; height: 100%; width: 0%; transition: width 0.5s; }
         .debt-remaining { color: #d32f2f; font-weight: bold; float: right; font-size: 1.1em; }
+
         #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; }
         .section { display: none; animation: fadeIn 0.3s; }
         .section.active { display: block; }
@@ -62,7 +80,7 @@
 <div class="container">
     <div class="header-container">
         <img src="logo.png" class="app-logo" alt="Logo">
-        <h1>Juguetería PRO</h1>
+        <h1>Juguetería Camaya</h1>
     </div>
 
     <div id="reader"></div>
@@ -96,33 +114,15 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" id="buscadorVenta" placeholder="Escanear producto..." onchange="buscarYSeleccionar()">
-                <button class="btn-scan" onclick="iniciarEscaneo('buscadorVenta')">📷</button>
-            </div>
-        </div>
-        <div class="row-inputs">
-            <div class="form-group" style="flex: 2;"><select id="selectProductoVenta"><option value="">-- Seleccionar --</option></select></div>
-            <div class="form-group" style="flex: 1;"><input type="number" id="cantidadVenta" value="1" min="1" placeholder="Cant."></div>
-        </div>
+        <div class="form-group"><div class="input-group"><input type="text" id="buscadorVenta" placeholder="Escanear producto..." onchange="buscarYSeleccionar()"><button class="btn-scan" onclick="iniciarEscaneo('buscadorVenta')">📷</button></div></div>
+        <div class="row-inputs"><div class="form-group" style="flex: 2;"><select id="selectProductoVenta"><option value="">-- Seleccionar --</option></select></div><div class="form-group" style="flex: 1;"><input type="number" id="cantidadVenta" value="1" min="1" placeholder="Cant."></div></div>
         <button class="action-btn btn-blue" onclick="agregarAlCarrito()">⬇️ Agregar al Carrito</button>
-        <div class="cart-container">
-            <h4 style="margin:0;">Carrito</h4>
-            <div class="table-container">
-                <table style="width:100%; min-width: auto;">
-                    <thead><tr><th>Prod.</th><th>Cant.</th><th>Subtotal</th><th>X</th></tr></thead>
-                    <tbody id="listaCarrito"><tr><td colspan="4" style="text-align:center; color:#999;">Vacío</td></tr></tbody>
-                </table>
-            </div>
-            <div class="cart-total" id="totalCarritoDisplay">Total: $0.00</div>
-            <button class="action-btn btn-green" onclick="procesarVentaCompleta()">✅ COMPLETAR VENTA</button>
-        </div>
+        <div class="cart-container"><h4 style="margin:0;">Carrito</h4><div class="table-container"><table style="width:100%; min-width: auto;"><thead><tr><th>Prod.</th><th>Cant.</th><th>Subtotal</th><th>X</th></tr></thead><tbody id="listaCarrito"><tr><td colspan="4" style="text-align:center; color:#999;">Vacío</td></tr></tbody></table></div><div class="cart-total" id="totalCarritoDisplay">Total: $0.00</div><button class="action-btn btn-green" onclick="procesarVentaCompleta()">✅ COMPLETAR VENTA</button></div>
     </div>
 
     <div id="cobranza" class="section">
         <h3>📒 Cuentas por Cobrar</h3>
-        <p style="color:#666; font-size:0.9em; margin-bottom:15px;">Solo aparecen las ventas marcadas como "CREDITO" y "PENDIENTE".</p>
+        <p style="color:#666; font-size:0.9em; margin-bottom:15px;">Gestiona los abonos de tus clientes.</p>
         <div id="listaCreditos">🔄 Buscando deudas...</div>
     </div>
 
@@ -156,7 +156,7 @@
     import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp, getDocs, writeBatch, where, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     // ------------------------------------------------------------------
-    // ⚠️⚠️ PEGA AQUÍ TUS LLAVES (REEMPLAZA ESTE BLOQUE ENTERO) ⚠️⚠️
+    // ⚠️⚠️ PEGA AQUÍ TUS LLAVES REALES ⚠️⚠️
     const firebaseConfig = {
         apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
         authDomain: "juguetescamaya.firebaseapp.com",
@@ -195,7 +195,7 @@
         window.borrar = (id) => { if(confirm("¿Borrar?")) deleteDoc(doc(db, "juguetes", id)); };
     });
 
-    // 2. VENTA (CARRITO)
+    // 2. VENTA
     window.verificarTipoPago = function() {
         const tipo = document.getElementById('tipoPago').value;
         document.getElementById('divPagoInicial').style.display = (tipo === 'CREDITO') ? 'block' : 'none';
@@ -218,141 +218,4 @@
         document.getElementById('totalCarritoDisplay').innerText = `Total: $${t.toFixed(2)}`;
         if(carrito.length===0) tb.innerHTML='<tr><td colspan="4" style="text-align:center">Vacío</td></tr>';
     }
-    window.remCar = (idx) => { carrito.splice(idx,1); actualizarCarrito(); }
-
-    window.procesarVentaCompleta = async function() {
-        if(carrito.length === 0) return alert("Carrito vacío");
-        const cliente = document.getElementById('clienteVenta').value || "Público General";
-        const tipoPago = document.getElementById('tipoPago').value;
-        const totalVenta = carrito.reduce((a,b)=>a+b.subtotal,0);
-        let pagoInicial = 0;
-        if(tipoPago === 'CREDITO') {
-            pagoInicial = parseFloat(document.getElementById('pagoInicial').value) || 0;
-            if(pagoInicial >= totalVenta) return alert("Si paga completo, usa CONTADO.");
-        } else { pagoInicial = totalVenta; }
-        if(!confirm(`Confirmar venta a ${cliente}?`)) return;
-
-        try {
-            const batch = writeBatch(db);
-            let totalGanancia = 0;
-            for (const item of carrito) {
-                const ref = doc(db, "juguetes", item.id);
-                const actual = inventarioLocal.find(p => p.id === item.id);
-                if(actual.existencia < item.cantidad) throw new Error(`Sin stock: ${item.nombre}`);
-                batch.update(ref, { existencia: actual.existencia - item.cantidad });
-                totalGanancia += (item.precioVenta - item.costoCompra) * item.cantidad;
-            }
-            const ventaRef = doc(collection(db, "ventas"));
-            const estadoVenta = (tipoPago === 'CONTADO') ? 'PAGADO' : 'PENDIENTE';
-            batch.set(ventaRef, {
-                fecha: serverTimestamp(), cliente: cliente, tipoPago: tipoPago, estado: estadoVenta,
-                items: carrito, totalTicket: totalVenta, pagadoHastaAhora: pagoInicial,
-                historialPagos: [{ fecha: new Date(), monto: pagoInicial, nota: "Pago Inicial" }],
-                gananciaTicket: totalGanancia
-            });
-            await batch.commit();
-            alert("✅ Venta Guardada"); carrito = []; actualizarCarrito();
-            document.getElementById('clienteVenta').value = "Público General"; document.getElementById('tipoPago').value = "CONTADO"; verificarTipoPago();
-        } catch (e) { alert("Error: " + e.message); }
-    }
-
-    // 3. COBRANZA (SIMPLIFICADA PARA DIAGNÓSTICO)
-    // Se elimina el orderBy("fecha") temporalmente para que funcione sin índice complejo
-    const qCreditos = query(colVentas, where("estado", "==", "PENDIENTE"));
-    
-    onSnapshot(qCreditos, (snapshot) => {
-        const div = document.getElementById("listaCreditos");
-        div.innerHTML = "";
-        
-        if(snapshot.empty) {
-            div.innerHTML = "<p style='text-align:center; padding:20px; color:#666;'>No se encontraron deudas pendientes.</p>";
-        }
-
-        snapshot.forEach((doc) => {
-            const v = doc.data();
-            const id = doc.id;
-            const fecha = v.fecha ? v.fecha.toDate().toLocaleDateString() : "S/F";
-            const total = v.totalTicket;
-            const pagado = v.pagadoHastaAhora || 0;
-            const restante = total - pagado;
-            const porcentaje = (pagado / total) * 100;
-
-            div.innerHTML += `
-                <div class="debt-card">
-                    <span class="debt-remaining">Resta: $${restante.toFixed(2)}</span>
-                    <strong>👤 ${v.cliente}</strong> <small>(${fecha})</small><br>
-                    Deuda Total: $${total.toFixed(2)}
-                    
-                    <div class="progress-bar"><div class="progress-fill" style="width:${porcentaje}%"></div></div>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <small>Pagado: $${pagado.toFixed(2)}</small>
-                        <button class="btn-icon btn-purple" onclick="abonar('${id}', ${restante}, ${pagado})">💲 Abonar</button>
-                    </div>
-                </div>`;
-        });
-    }, (error) => {
-        // ALERTA DE ERROR DE FIREBASE
-        alert("⚠️ Error leyendo Cobranza: " + error.message);
-        document.getElementById("listaCreditos").innerHTML = "<p style='color:red; text-align:center;'>Error de conexión: " + error.message + "</p>";
-    });
-
-    window.abonar = async (id, restante, pagadoActual) => {
-        const monto = parseFloat(prompt(`Deuda: $${restante.toFixed(2)}\nIngresa monto a abonar:`));
-        if(!monto || monto <= 0) return;
-        if(monto > restante) return alert("Monto excede deuda.");
-        const nuevoPagado = pagadoActual + monto;
-        const nuevoEstado = (Math.abs(monto - restante) < 0.1) ? 'PAGADO' : 'PENDIENTE'; // Tolerancia de centavos
-        try {
-            await updateDoc(doc(db, "ventas", id), {
-                pagadoHastaAhora: nuevoPagado, estado: nuevoEstado,
-                historialPagos: arrayUnion({ fecha: new Date(), monto: monto, nota: "Abono" })
-            });
-            alert("Abono registrado ✅");
-        } catch(e) { alert("Error: " + e.message); }
-    }
-
-    // 4. TICKETS (VISUAL MEJORADO)
-    onSnapshot(query(colVentas, orderBy("fecha", "desc"), limit(30)), (s) => {
-        const tb = document.getElementById("listaVentas"); tb.innerHTML="";
-        s.forEach(d => {
-            const v = d.data(); const f = v.fecha?v.fecha.toDate():new Date();
-            const id = d.id;
-            let det = ""; 
-            if(v.items) v.items.forEach(i=>det+=`<div>${i.nombre} x${i.cantidad}</div>`); else det = v.nombreProducto;
-            
-            let estadoHTML = "";
-            if(v.estado === 'PENDIENTE') {
-                const debe = v.totalTicket - (v.pagadoHastaAhora || 0);
-                estadoHTML = `<span style="color:orange; font-weight:bold;">[PENDIENTE]</span> <span style="color:red; font-size:0.9em;">(Debe: $${debe.toFixed(2)})</span>`;
-            } else { estadoHTML = `<span style="color:green; font-weight:bold;">[PAGADO]</span>`; }
-
-            tb.innerHTML += `
-            <tr class="ticket-row" onclick="toggle('${id}')">
-                <td><span id="ic-${id}" class="rotated" style="transform:none">▶</span> ${f.toLocaleDateString()}</td>
-                <td>${v.cliente} <br> ${estadoHTML}</td>
-                <td><strong>$${v.totalTicket.toFixed(2)}</strong></td>
-            </tr>
-            <tr id="det-${id}" class="ticket-details-row"><td colspan="3"><div class="detail-content">
-                <strong>Items:</strong>${det}<br><hr>Total: $${v.totalTicket}<br>Pagado: $${v.pagadoHastaAhora}<br>Estado: ${v.estado}
-            </div></td></tr>`;
-        });
-    });
-    window.toggle = (id) => { const r=document.getElementById(`det-${id}`); const i=document.getElementById(`ic-${id}`); if(r.style.display==="table-row"){r.style.display="none";i.style.transform="none";} else{r.style.display="table-row";i.style.transform="rotate(90deg)";} }
-
-    // UTILS
-    window.editar=(id)=>{const p=inventarioLocal.find(x=>x.id===id);if(p){document.getElementById('codigo').value=p.codigo;document.getElementById('nombre').value=p.nombre;document.getElementById('precioCompra').value=p.precioCompra;document.getElementById('precioVenta').value=p.precioVenta;idEditando=p.id;document.getElementById('modoInfo').innerText=`EDITANDO: ${p.nombre}`;document.getElementById('modoInfo').style.display='block';document.getElementById('btnGuardar').innerText="Actualizar";window.scrollTo(0,0);mostrarSeccion('inventario');}};
-    window.verificarProducto=()=>{const c=document.getElementById('codigo').value;const p=inventarioLocal.find(x=>x.codigo===c);if(p)window.editar(p.id);else{idEditando=null;document.getElementById('modoInfo').style.display='none';document.getElementById('btnGuardar').innerText="Guardar";}};
-    window.procesarIngreso=async()=>{const c=document.getElementById('codigo').value;const n=document.getElementById('nombre').value;const pc=parseFloat(document.getElementById('precioCompra').value);const pv=parseFloat(document.getElementById('precioVenta').value);const st=parseInt(document.getElementById('existencia').value);if(!c||!n)return alert("Faltan datos");if(idEditando){const old=inventarioLocal.find(x=>x.id===idEditando);const ns=old.existencia+(isNaN(st)?0:st);await updateDoc(doc(db,"juguetes",idEditando),{nombre:n,precioCompra:pc,precioVenta:pv,existencia:ns});alert("Actualizado");}else{if(isNaN(st))return alert("Stock?");await addDoc(colJuguetes,{codigo:c,nombre:n,precioCompra:pc,precioVenta:pv,existencia:st});alert("Creado");}limpiarInputs();};
-    window.limpiarInputs=()=>{document.querySelectorAll('#inventario input').forEach(i=>i.value='');idEditando=null;document.getElementById('modoInfo').style.display='none';document.getElementById('btnGuardar').innerText="Guardar";};
-    window.filtrarInventarioLocal=()=>{const t=document.getElementById('buscador').value.toLowerCase();document.querySelectorAll('#tbodyInventario tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(t)?'':'none');};
-    window.buscarYSeleccionar=()=>{const c=document.getElementById('buscadorVenta').value;const p=inventarioLocal.find(x=>x.codigo===c);if(p)document.getElementById('selectProductoVenta').value=p.id;};
-    window.mostrarSeccion=(s)=>{document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(s).classList.add('active');document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');};
-    window.iniciarEscaneo=function(i){inp=i;document.getElementById('reader').style.display='block';document.getElementById('btnStopScan').style.display='block';sc=new Html5Qrcode("reader");sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{document.getElementById(inp).value=t;detenerEscaneo();if(inp==='codigo')verificarProducto();if(inp==='buscadorVenta')window.buscarYSeleccionar();});}
-    window.detenerEscaneo=function(){if(sc){sc.stop().then(()=>{document.getElementById('reader').style.display='none';document.getElementById('btnStopScan').style.display='none';sc.clear();});}}
-    let sc; let inp;
-    window.exportarInventario=function(){let c="Cod,Nom,Stock,Costo,Venta\n";inventarioLocal.forEach(p=>c+=`"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra},${p.precioVenta}\n`);descargarCSV(c,"inv.csv");}
-    window.exportarVentas=async function(){const s=await getDocs(query(colVentas,orderBy("fecha","desc")));let c="Fecha,Cliente,Tipo,Estado,Total,Pagado\n";s.forEach(d=>{const v=d.data();const f=v.fecha?v.fecha.toDate().toLocaleDateString():'';c+=`"${f}","${v.cliente}","${v.tipoPago}","${v.estado}",${v.totalTicket},${v.pagadoHastaAhora}\n`});descargarCSV(c,"ventas.csv");}
-    function descargarCSV(c,n){const l=document.createElement("a");l.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));l.download=n;l.click();}
-</script>
-</body>
-</html>
+    window.remCar = (idx) => { carrito.splice(idx,1
