@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería Camaya 💳</title>
+    <title>Juguetería PRO v10.1 🛡️</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
@@ -19,12 +19,10 @@
         .app-logo { width: 50px; height: 50px; object-fit: contain; }
         h1 { margin: 0; color: #1a73e8; font-size: 1.8rem; }
         
-        /* NAVEGACIÓN */
         .tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #e8eaed; padding: 5px; border-radius: 12px; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; border-radius: 8px; }
         .tab-btn.active { background: white; color: #1a73e8; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        /* INPUTS */
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 0.9rem; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #f9f9f9; }
@@ -33,7 +31,6 @@
         .input-group { display: flex; gap: 8px; }
         .btn-scan { background: #5f6368; color: white; border: none; border-radius: 8px; padding: 0 15px; font-size: 20px; cursor: pointer; }
         
-        /* BOTONES */
         button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 5px; cursor: pointer; }
         .btn-green { background: #34a853; }
         .btn-blue { background: #1a73e8; }
@@ -42,7 +39,6 @@
         .btn-export { background: #188038; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; margin-bottom: 10px; cursor: pointer; font-size: 14px; }
         .btn-icon { border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 16px; color: white; }
         
-        /* VISUALES ESPECÍFICOS */
         .cart-container { border: 2px dashed #ccc; padding: 15px; border-radius: 10px; background: #fafafa; margin-top: 15px; }
         .cart-total { font-size: 26px; color: #1a73e8; font-weight: 800; text-align: right; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px; }
         .table-container { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
@@ -50,19 +46,15 @@
         th { background: #f1f3f4; padding: 12px; text-align: left; border-bottom: 2px solid #ddd; color: #555; }
         td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
         
-        /* TICKETS Y ACORDEÓN */
+        /* Acordeón y Listas */
         .ticket-row { cursor: pointer; transition: background 0.2s; }
         .ticket-row:hover { background-color: #f1f3f4; }
         .ticket-details-row { display: none; background-color: #fafafa; border-left: 4px solid #1a73e8; }
         .detail-content { padding: 15px; font-size: 14px; color: #555; }
         .rotated { transform: rotate(90deg); display:inline-block; transition: 0.3s; }
-        
-        /* LISTA DE PAGOS (NUEVO ESTILO) */
         .payment-list { list-style: none; padding: 0; margin: 10px 0; }
         .payment-list li { background: #fff; border-bottom: 1px solid #eee; padding: 8px; display: flex; justify-content: space-between; }
-        .payment-list li:first-child { border-top: 1px solid #eee; }
-
-        /* TARJETAS COBRANZA */
+        
         .debt-card { background: #fff8e1; border: 1px solid #ffecb3; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .progress-bar { background: #e0e0e0; height: 12px; border-radius: 6px; margin: 10px 0; overflow: hidden; }
         .progress-fill { background: #4caf50; height: 100%; width: 0%; transition: width 0.5s; }
@@ -80,7 +72,7 @@
 <div class="container">
     <div class="header-container">
         <img src="logo.png" class="app-logo" alt="Logo">
-        <h1>Juguetería Camaya</h1>
+        <h1>Juguetería PRO</h1>
     </div>
 
     <div id="reader"></div>
@@ -158,13 +150,13 @@
     // ------------------------------------------------------------------
     // ⚠️⚠️ PEGA AQUÍ TUS LLAVES REALES ⚠️⚠️
     const firebaseConfig = {
-        apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
-        authDomain: "juguetescamaya.firebaseapp.com",
-        projectId: "juguetescamaya",
-        storageBucket: "juguetescamaya.firebasestorage.app",
-        messagingSenderId: "645609260652",
-        appId: "1:645609260652:web:6bed60f94237733086fa49"
-};
+        apiKey: "AIzaSyD-XXXXXXXXXXXXXXXXXXXXXXXXX",
+        authDomain: "tu-proyecto.firebaseapp.com",
+        projectId: "tu-proyecto",
+        storageBucket: "tu-proyecto.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456:web:abcdef"
+    };
     // ------------------------------------------------------------------
 
     const app = initializeApp(firebaseConfig);
@@ -176,6 +168,14 @@
     let inventarioLocal = [];
     let idEditando = null;
     let carrito = [];
+
+    // Helper para formatear fechas
+    function formatearFecha(f) {
+        if (!f) return "S/F";
+        if (f.seconds) return new Date(f.seconds * 1000).toLocaleDateString();
+        if (f instanceof Date) return f.toLocaleDateString();
+        return new Date(f).toLocaleDateString();
+    }
 
     // 1. CARGA INVENTARIO
     onSnapshot(colJuguetes, (snapshot) => {
@@ -218,4 +218,149 @@
         document.getElementById('totalCarritoDisplay').innerText = `Total: $${t.toFixed(2)}`;
         if(carrito.length===0) tb.innerHTML='<tr><td colspan="4" style="text-align:center">Vacío</td></tr>';
     }
-    window.remCar = (idx) => { carrito.splice(idx,1
+    window.remCar = (idx) => { carrito.splice(idx,1); actualizarCarrito(); }
+
+    window.procesarVentaCompleta = async function() {
+        if(carrito.length === 0) return alert("Carrito vacío");
+        const cliente = document.getElementById('clienteVenta').value || "Público General";
+        const tipoPago = document.getElementById('tipoPago').value;
+        const totalVenta = carrito.reduce((a,b)=>a+b.subtotal,0);
+        let pagoInicial = 0;
+        if(tipoPago === 'CREDITO') {
+            pagoInicial = parseFloat(document.getElementById('pagoInicial').value) || 0;
+            if(pagoInicial >= totalVenta) return alert("Si paga completo, usa CONTADO.");
+        } else { pagoInicial = totalVenta; }
+        if(!confirm(`Confirmar venta a ${cliente}?`)) return;
+
+        try {
+            const batch = writeBatch(db);
+            let totalGanancia = 0;
+            for (const item of carrito) {
+                const ref = doc(db, "juguetes", item.id);
+                const actual = inventarioLocal.find(p => p.id === item.id);
+                if(actual.existencia < item.cantidad) throw new Error(`Sin stock: ${item.nombre}`);
+                batch.update(ref, { existencia: actual.existencia - item.cantidad });
+                totalGanancia += (item.precioVenta - item.costoCompra) * item.cantidad;
+            }
+            const ventaRef = doc(collection(db, "ventas"));
+            const estadoVenta = (tipoPago === 'CONTADO') ? 'PAGADO' : 'PENDIENTE';
+            batch.set(ventaRef, {
+                fecha: serverTimestamp(), cliente: cliente, tipoPago: tipoPago, estado: estadoVenta,
+                items: carrito, totalTicket: totalVenta, pagadoHastaAhora: pagoInicial,
+                historialPagos: [{ fecha: new Date(), monto: pagoInicial, nota: "Pago Inicial / Contado" }],
+                gananciaTicket: totalGanancia
+            });
+            await batch.commit();
+            alert("✅ Venta Guardada"); carrito = []; actualizarCarrito();
+            document.getElementById('clienteVenta').value = "Público General"; document.getElementById('tipoPago').value = "CONTADO"; verificarTipoPago();
+        } catch (e) { alert("Error: " + e.message); }
+    }
+
+    // 3. COBRANZA
+    const qCreditos = query(colVentas, where("estado", "==", "PENDIENTE"));
+    onSnapshot(qCreditos, (snapshot) => {
+        const div = document.getElementById("listaCreditos");
+        div.innerHTML = "";
+        if(snapshot.empty) div.innerHTML = "<p style='text-align:center; padding:20px; color:#666;'>No hay deudas pendientes.</p>";
+
+        snapshot.forEach((doc) => {
+            const v = doc.data(); const id = doc.id;
+            const fecha = formatearFecha(v.fecha);
+            const total = v.totalTicket; const pagado = v.pagadoHastaAhora || 0;
+            const restante = total - pagado; const porcentaje = (pagado / total) * 100;
+
+            div.innerHTML += `
+                <div class="debt-card">
+                    <span class="debt-remaining">Resta: $${restante.toFixed(2)}</span>
+                    <strong>👤 ${v.cliente}</strong> <small>(${fecha})</small><br>
+                    Deuda Total: $${total.toFixed(2)}
+                    <div class="progress-bar"><div class="progress-fill" style="width:${porcentaje}%"></div></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <small>Pagado: $${pagado.toFixed(2)}</small>
+                        <button class="btn-icon btn-purple" onclick="abonar('${id}', ${restante}, ${pagado})">💲 Abonar</button>
+                    </div>
+                </div>`;
+        });
+    });
+
+    window.abonar = async (id, restante, pagadoActual) => {
+        const monto = parseFloat(prompt(`Deuda: $${restante.toFixed(2)}\nIngresa monto a abonar:`));
+        if(!monto || monto <= 0) return;
+        if(monto > restante) return alert("Monto excede deuda.");
+        const nuevoPagado = pagadoActual + monto;
+        const nuevoEstado = (Math.abs(monto - restante) < 0.1) ? 'PAGADO' : 'PENDIENTE';
+        try {
+            await updateDoc(doc(db, "ventas", id), {
+                pagadoHastaAhora: nuevoPagado, estado: nuevoEstado,
+                historialPagos: arrayUnion({ fecha: new Date(), monto: monto, nota: "Abono" })
+            });
+            alert("Abono registrado ✅");
+        } catch(e) { alert("Error: " + e.message); }
+    }
+
+    // 4. TICKETS (CON HISTORIAL DETALLADO)
+    onSnapshot(query(colVentas, orderBy("fecha", "desc"), limit(30)), (s) => {
+        const tb = document.getElementById("listaVentas"); tb.innerHTML="";
+        s.forEach(d => {
+            const v = d.data(); 
+            const f = formatearFecha(v.fecha);
+            const id = d.id;
+            
+            // Items
+            let det = ""; 
+            if(v.items) v.items.forEach(i=>det+=`<div>${i.nombre} x${i.cantidad}</div>`); else det = v.nombreProducto;
+            
+            // Estado y Deuda
+            let estadoHTML = "";
+            if(v.estado === 'PENDIENTE') {
+                const debe = v.totalTicket - (v.pagadoHastaAhora || 0);
+                estadoHTML = `<span style="color:orange; font-weight:bold;">[PENDIENTE]</span> <span style="color:red; font-size:0.9em;">(Debe: $${debe.toFixed(2)})</span>`;
+            } else { estadoHTML = `<span style="color:green; font-weight:bold;">[PAGADO]</span>`; }
+
+            // HISTORIAL DE ABONOS (CON PROTECCIÓN CONTRA ERRORES)
+            let historialHTML = "";
+            if(v.historialPagos && Array.isArray(v.historialPagos)) {
+                historialHTML = `<ul class="payment-list">`;
+                v.historialPagos.forEach(p => {
+                    const fPago = formatearFecha(p.fecha);
+                    historialHTML += `<li><span>📅 ${fPago}</span> <span><strong>$${p.monto.toFixed(2)}</strong> <small>(${p.nota})</small></span></li>`;
+                });
+                historialHTML += `</ul>`;
+            } else {
+                historialHTML = `<p style="color:#999; font-style:italic; padding:10px;">Sin detalle de abonos (Venta antigua)</p>`;
+            }
+
+            tb.innerHTML += `
+            <tr class="ticket-row" onclick="toggle('${id}')">
+                <td><span id="ic-${id}" class="rotated" style="transform:none">▶</span> ${f}</td>
+                <td>${v.cliente} <br> ${estadoHTML}</td>
+                <td><strong>$${v.totalTicket.toFixed(2)}</strong></td>
+            </tr>
+            <tr id="det-${id}" class="ticket-details-row"><td colspan="3"><div class="detail-content">
+                <strong>📦 Productos:</strong>${det}
+                <hr>
+                <strong>💰 Historial de Pagos:</strong>
+                ${historialHTML}
+                <div style="text-align:right; margin-top:10px;">Total Ticket: <strong>$${v.totalTicket}</strong></div>
+            </div></td></tr>`;
+        });
+    });
+    window.toggle = (id) => { const r=document.getElementById(`det-${id}`); const i=document.getElementById(`ic-${id}`); if(r.style.display==="table-row"){r.style.display="none";i.style.transform="none";} else{r.style.display="table-row";i.style.transform="rotate(90deg)";} }
+
+    // UTILS
+    window.editar=(id)=>{const p=inventarioLocal.find(x=>x.id===id);if(p){document.getElementById('codigo').value=p.codigo;document.getElementById('nombre').value=p.nombre;document.getElementById('precioCompra').value=p.precioCompra;document.getElementById('precioVenta').value=p.precioVenta;idEditando=p.id;document.getElementById('modoInfo').innerText=`EDITANDO: ${p.nombre}`;document.getElementById('modoInfo').style.display='block';document.getElementById('btnGuardar').innerText="Actualizar";window.scrollTo(0,0);mostrarSeccion('inventario');}};
+    window.verificarProducto=()=>{const c=document.getElementById('codigo').value;const p=inventarioLocal.find(x=>x.codigo===c);if(p)window.editar(p.id);else{idEditando=null;document.getElementById('modoInfo').style.display='none';document.getElementById('btnGuardar').innerText="Guardar";}};
+    window.procesarIngreso=async()=>{const c=document.getElementById('codigo').value;const n=document.getElementById('nombre').value;const pc=parseFloat(document.getElementById('precioCompra').value);const pv=parseFloat(document.getElementById('precioVenta').value);const st=parseInt(document.getElementById('existencia').value);if(!c||!n)return alert("Faltan datos");if(idEditando){const old=inventarioLocal.find(x=>x.id===idEditando);const ns=old.existencia+(isNaN(st)?0:st);await updateDoc(doc(db,"juguetes",idEditando),{nombre:n,precioCompra:pc,precioVenta:pv,existencia:ns});alert("Actualizado");}else{if(isNaN(st))return alert("Stock?");await addDoc(colJuguetes,{codigo:c,nombre:n,precioCompra:pc,precioVenta:pv,existencia:st});alert("Creado");}limpiarInputs();};
+    window.limpiarInputs=()=>{document.querySelectorAll('#inventario input').forEach(i=>i.value='');idEditando=null;document.getElementById('modoInfo').style.display='none';document.getElementById('btnGuardar').innerText="Guardar";};
+    window.filtrarInventarioLocal=()=>{const t=document.getElementById('buscador').value.toLowerCase();document.querySelectorAll('#tbodyInventario tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(t)?'':'none');};
+    window.buscarYSeleccionar=()=>{const c=document.getElementById('buscadorVenta').value;const p=inventarioLocal.find(x=>x.codigo===c);if(p)document.getElementById('selectProductoVenta').value=p.id;};
+    window.mostrarSeccion=(s)=>{document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(s).classList.add('active');document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');};
+    window.iniciarEscaneo=function(i){inp=i;document.getElementById('reader').style.display='block';document.getElementById('btnStopScan').style.display='block';sc=new Html5Qrcode("reader");sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{document.getElementById(inp).value=t;detenerEscaneo();if(inp==='codigo')verificarProducto();if(inp==='buscadorVenta')window.buscarYSeleccionar();});}
+    window.detenerEscaneo=function(){if(sc){sc.stop().then(()=>{document.getElementById('reader').style.display='none';document.getElementById('btnStopScan').style.display='none';sc.clear();});}}
+    let sc; let inp;
+    window.exportarInventario=function(){let c="Cod,Nom,Stock,Costo,Venta\n";inventarioLocal.forEach(p=>c+=`"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra},${p.precioVenta}\n`);descargarCSV(c,"inv.csv");}
+    window.exportarVentas=async function(){const s=await getDocs(query(colVentas,orderBy("fecha","desc")));let c="Fecha,Cliente,Tipo,Estado,Total,Pagado\n";s.forEach(d=>{const v=d.data();const f=v.fecha?v.fecha.toDate().toLocaleDateString():'';c+=`"${f}","${v.cliente}","${v.tipoPago}","${v.estado}",${v.totalTicket},${v.pagadoHastaAhora}\n`});descargarCSV(c,"ventas.csv");}
+    function descargarCSV(c,n){const l=document.createElement("a");l.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));l.download=n;l.click();}
+</script>
+</body>
+</html>
