@@ -3,78 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería POS 🛒</title>
+    <title>Juguetería CamAya 🛒</title>
+    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* ESTILOS (Ajustados para el Carrito) */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
+        /* --- ESTILOS GENERALES --- */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; padding-bottom: 50px; }
         .container { max-width: 1000px; margin: 0 auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #1a73e8; margin-bottom: 10px; font-size: 1.5rem; }
         
-        /* Navegación */
+        /* Encabezado con Logo */
+        .header-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .app-logo { width: 50px; height: 50px; object-fit: contain; }
+        h1 { margin: 0; color: #1a73e8; font-size: 1.8rem; }
+        
+        /* Navegación (Pestañas) */
         .tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #e8eaed; padding: 5px; border-radius: 12px; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; }
-        .tab-btn.active { background: white; color: #1a73e8; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; border-radius: 8px; }
+        .tab-btn.active { background: white; color: #1a73e8; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        /* Inputs Generales */
+        /* Formularios e Inputs */
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #f9f9f9; }
+        input:focus { border-color: #1a73e8; background: #fff; outline: none; }
         
         .row-inputs { display: flex; gap: 10px; }
         .half { flex: 1; }
         .input-group { display: flex; gap: 8px; }
-        .btn-scan { background: #5f6368; color: white; border: none; border-radius: 8px; padding: 0 15px; font-size: 20px; }
         
-        /* Botones */
-        button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 5px; cursor: pointer; }
+        /* Botones de Acción */
+        .btn-scan { background: #5f6368; color: white; border: none; border-radius: 8px; padding: 0 15px; font-size: 20px; cursor: pointer; }
+        button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 5px; cursor: pointer; transition: transform 0.1s; }
+        button.action-btn:active { transform: scale(0.98); }
+        
         .btn-green { background: #34a853; }
         .btn-blue { background: #1a73e8; }
         .btn-orange { background: #fbbc04; color: #222 !important; }
         .btn-red { background: #ea4335; }
-        .btn-export { background: #188038; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; margin-bottom: 10px; cursor: pointer; }
+        .btn-export { background: #188038; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; margin-bottom: 10px; cursor: pointer; font-size: 14px; }
 
-        /* Estilos específicos del Carrito */
-        .cart-container { border: 2px dashed #ccc; padding: 10px; border-radius: 10px; background: #fafafa; margin-top: 15px; }
-        .cart-total { font-size: 24px; color: #1a73e8; font-weight: bold; text-align: right; margin-top: 10px; }
+        /* Botones de Tabla (Editar/Borrar) */
+        .btn-edit { background-color: #fbbc04; color: #222; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 16px; }
+        .btn-delete { background-color: #ea4335; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+
+        /* Carrito de Compras */
+        .cart-container { border: 2px dashed #ccc; padding: 15px; border-radius: 10px; background: #fafafa; margin-top: 15px; }
+        .cart-total { font-size: 26px; color: #1a73e8; font-weight: 800; text-align: right; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px; }
         .btn-remove { background: #ffcccc; color: #d32f2f; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
-        /* Tablas */
-        .table-container { overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
-        th { background: #f1f3f4; padding: 10px; text-align: left; border-bottom: 2px solid #ddd; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
-        .profit { color: #137333; font-weight: bold; }
+        /* Tablas Responsive */
+        .table-container { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; background: white; }
+        th { background: #f1f3f4; padding: 12px; text-align: left; border-bottom: 2px solid #ddd; color: #555; }
+        td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
         
-        /* Cámara y Secciones */
-        #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; }
-        .section { display: none; }
-        .section.active { display: block; animation: fadeIn 0.3s; }
+        .profit { color: #137333; font-weight: bold; }
+        .cost { color: #ea4335; font-size: 0.9em; }
+        
+        /* Cámara y Utilidades */
+        #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; overflow: hidden; }
+        .section { display: none; animation: fadeIn 0.3s; }
+        .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .modo-editar { background: #fff3e0; color: #e65100; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: none; text-align: center; font-weight: bold; }
+        
+        .modo-editar { background: #fff3e0; color: #e65100; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none; text-align: center; font-weight: bold; border: 1px solid #ffe0b2; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1> Juguetería CamAya </h1>
-
-    <div id="reader"></div>
-    <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:#ea4335; color:white; padding:10px; margin-bottom:10px; border:none; border-radius:8px;">Cerrar Cámara</button>
-
-    <div class="tabs">
-        <button class="tab-btn" onclick="mostrarSeccion('venta')">💰 Venta (Carrito)</button>
-        <button class="tab-btn active" onclick="mostrarSeccion('inventario')">📦 Inventario</button>
-        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📜 Historial Tickets</button>
-        <button class="tab-btn" onclick="mostrarSeccion('movimientos')">🚚 Movimientos</button>
+    <div class="header-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/3081/3081840.png" class="app-logo" alt="Logo">
+        <h1>Juguetería POS</h1>
     </div>
 
-    <div id="venta" class="section">
-        <h3>Agregar al Carrito</h3>
+    <div id="reader"></div>
+    <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:#ea4335; color:white; padding:10px; margin-bottom:10px; border:none; border-radius:8px;">Detener Cámara 📷</button>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="mostrarSeccion('venta')">🛒 Venta</button>
+        <button class="tab-btn" onclick="mostrarSeccion('inventario')">📦 Inventario</button>
+        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📄 Tickets</button>
+        <button class="tab-btn" onclick="mostrarSeccion('movimientos')">🚚 Historial</button>
+    </div>
+
+    <div id="venta" class="section active">
         <div class="form-group">
             <div class="input-group">
                 <input type="text" id="buscadorVenta" placeholder="Escanear producto..." onchange="buscarYSeleccionar()">
@@ -93,12 +112,12 @@
         <button class="action-btn btn-blue" onclick="agregarAlCarrito()">⬇️ Agregar al Carrito</button>
 
         <div class="cart-container">
-            <h4>🛒 Carrito de Compras</h4>
+            <h4 style="margin-top:0;">Lista de Compra</h4>
             <div class="table-container">
                 <table style="width:100%; min-width: auto;">
                     <thead><tr><th>Prod.</th><th>Cant.</th><th>Subtotal</th><th>X</th></tr></thead>
                     <tbody id="listaCarrito">
-                        <tr><td colspan="4" style="text-align:center; color:#999;">Carrito vacío</td></tr>
+                        <tr><td colspan="4" style="text-align:center; color:#999; padding:20px;">El carrito está vacío</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -107,53 +126,60 @@
         </div>
     </div>
 
-    <div id="inventario" class="section active">
+    <div id="inventario" class="section">
         <div id="modoInfo" class="modo-editar"></div>
         <button class="btn-export" onclick="exportarInventario()">📥 Descargar Inventario (Excel)</button>
 
         <div class="form-group">
-            <label>Código:</label>
+            <label>Código de Barras:</label>
             <div class="input-group">
-                <input type="text" id="codigo" placeholder="Escanear..." onchange="verificarProducto()">
+                <input type="text" id="codigo" placeholder="Escanear o escribir..." onchange="verificarProducto()">
                 <button class="btn-scan" onclick="iniciarEscaneo('codigo')">📷</button>
             </div>
         </div>
-        <div class="form-group"><input type="text" id="nombre" placeholder="Nombre"></div>
+        <div class="form-group"><label>Nombre del Juguete:</label><input type="text" id="nombre"></div>
         <div class="row-inputs">
-            <div class="form-group half"><input type="number" id="precioCompra" placeholder="Costo $" step="0.50"></div>
-            <div class="form-group half"><input type="number" id="precioVenta" placeholder="Venta $" step="0.50"></div>
+            <div class="form-group half"><label>Costo Compra ($):</label><input type="number" id="precioCompra" placeholder="0.00" step="0.50"></div>
+            <div class="form-group half"><label>Precio Venta ($):</label><input type="number" id="precioVenta" placeholder="0.00" step="0.50"></div>
         </div>
-        <div class="form-group"><input type="number" id="existencia" placeholder="Cantidad"></div>
+        <div class="form-group"><label>Cantidad a Ingresar:</label><input type="number" id="existencia" placeholder="Stock nuevo"></div>
 
         <button id="btnGuardar" class="action-btn btn-green" onclick="procesarIngreso()">Guardar Producto</button>
-        <button class="action-btn" style="background:#9aa0a6;" onclick="limpiarInputs()">Limpiar</button>
+        <button class="action-btn" style="background:#9aa0a6; margin-top:10px;" onclick="limpiarInputs()">Limpiar Formulario</button>
 
-        <h3 style="margin-top:20px">Lista Inventario</h3>
-        <input type="text" id="buscador" placeholder="🔍 Buscar..." onkeyup="filtrarInventarioLocal()">
+        <h3 style="margin-top:25px; border-bottom:2px solid #eee; padding-bottom:10px;">Inventario Actual</h3>
+        <input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarInventarioLocal()">
+        
         <div class="table-container">
             <table id="tablaInventario">
-                <thead><tr><th>Producto</th><th>Stock</th><th>Costo</th><th>Venta</th><th>X</th></tr></thead>
+                <thead><tr><th>Producto</th><th>Stock</th><th>Costos</th><th>Acciones</th></tr></thead>
                 <tbody id="tbodyInventario"></tbody>
             </table>
         </div>
     </div>
 
     <div id="reportes" class="section">
-        <button class="btn-export" onclick="exportarVentas()">📥 Descargar Ventas Detalladas (Excel)</button>
-        <div style="background:#e6f4ea; padding:10px; border-radius:8px; margin-bottom:10px;">
-            <strong>Venta Hoy:</strong> <span id="totalDia" style="font-size:18px;">$0.00</span> | 
-            <strong>Ganancia:</strong> <span id="gananciaDia" class="profit">$0.00</span>
+        <button class="btn-export" onclick="exportarVentas()">📥 Descargar Historial Completo (Excel)</button>
+        <div style="background:#e6f4ea; padding:15px; border-radius:8px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <small>Venta Total Hoy</small><br>
+                <span id="totalDia" style="font-size:22px; font-weight:bold; color:#1a73e8;">$0.00</span>
+            </div>
+            <div style="text-align:right;">
+                <small>Ganancia Neta</small><br>
+                <span id="gananciaDia" class="profit" style="font-size:22px;">$0.00</span>
+            </div>
         </div>
         <div class="table-container">
             <table>
-                <thead><tr><th>Fecha/Hora</th><th>Detalle del Ticket</th><th>Total</th></tr></thead>
+                <thead><tr><th>Hora</th><th>Detalle del Ticket</th><th>Total</th></tr></thead>
                 <tbody id="listaVentas"></tbody>
             </table>
         </div>
     </div>
 
     <div id="movimientos" class="section">
-        <h3>Historial Entradas</h3>
+        <h3>Historial de Entradas</h3>
         <div class="table-container">
             <table>
                 <thead><tr><th>Fecha</th><th>Producto</th><th>Acción</th></tr></thead>
@@ -168,7 +194,7 @@
     import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     // ------------------------------------------------------------------
-    // ⚠️⚠️ PEGA TUS LLAVES AQUÍ OTRA VEZ ⚠️⚠️
+    // ⚠️⚠️ PEGA TUS LLAVES AQUÍ ⚠️⚠️
     const firebaseConfig = {
   apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
   authDomain: "juguetescamaya.firebaseapp.com",
@@ -187,9 +213,9 @@
 
     let inventarioLocal = [];
     let idEditando = null;
-    let carrito = []; // ARRAY DEL CARRITO
+    let carrito = [];
 
-    // 1. CARGAR INVENTARIO
+    // 1. CARGAR INVENTARIO (CON BOTÓN DE EDITAR)
     onSnapshot(colJuguetes, (snapshot) => {
         inventarioLocal = [];
         const tbody = document.getElementById("tbodyInventario");
@@ -205,29 +231,39 @@
             d.precioCompra = d.precioCompra || 0; 
             inventarioLocal.push(d);
 
-            tbody.innerHTML += `<tr><td>${d.nombre}<br><small>${d.codigo}</small></td><td style="font-weight:bold">${d.existencia}</td><td class="cost">$${d.precioCompra}</td><td>$${d.precioVenta}</td><td><button onclick="borrarProducto('${d.id}')">🗑️</button></td></tr>`;
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${d.nombre}</strong><br><small style="color:#666">${d.codigo}</small></td>
+                    <td style="font-weight:bold; text-align:center;">${d.existencia}</td>
+                    <td><span class="cost">C: $${d.precioCompra}</span><br><strong>V: $${d.precioVenta}</strong></td>
+                    <td>
+                        <button class="btn-edit" onclick="editarDesdeTabla('${d.id}')">✏️</button>
+                        <button class="btn-delete" onclick="borrarProducto('${d.id}')">🗑️</button>
+                    </td>
+                </tr>`;
             select.innerHTML += `<option value="${d.id}">${d.nombre} ($${d.precioVenta})</option>`;
         });
         if(prevSelect) select.value = prevSelect;
-        window.borrarProducto = (id) => { if(confirm("¿Borrar?")) deleteDoc(doc(db, "juguetes", id)); };
+        
+        window.borrarProducto = (id) => { if(confirm("¿Estás seguro de borrar este producto permanentemente?")) deleteDoc(doc(db, "juguetes", id)); };
     });
 
-    // 2. LÓGICA DEL CARRITO 🛒
+    // 2. LÓGICA DEL CARRITO (POS)
     window.agregarAlCarrito = function() {
         const id = document.getElementById('selectProductoVenta').value;
         const cant = parseInt(document.getElementById('cantidadVenta').value);
         
-        if(!id) return alert("Selecciona un producto");
-        if(isNaN(cant) || cant < 1) return alert("Cantidad inválida");
+        if(!id) return alert("Selecciona un producto primero.");
+        if(isNaN(cant) || cant < 1) return alert("Cantidad inválida.");
 
         const prod = inventarioLocal.find(p => p.id === id);
         
-        // Verificar stock global vs lo que ya tengo en carrito
+        // Validar Stock
         const enCarrito = carrito.find(item => item.id === id);
         const cantidadEnCarrito = enCarrito ? enCarrito.cantidad : 0;
 
         if((cantidadEnCarrito + cant) > prod.existencia) {
-            return alert(`Stock insuficiente. Tienes ${prod.existencia}, intentas vender ${cantidadEnCarrito + cant}.`);
+            return alert(`¡Stock insuficiente! Tienes ${prod.existencia}, intentas vender ${cantidadEnCarrito + cant}.`);
         }
 
         if(enCarrito) {
@@ -246,7 +282,6 @@
         }
         
         actualizarVistaCarrito();
-        // Resetear inputs de venta
         document.getElementById('cantidadVenta').value = 1;
         document.getElementById('selectProductoVenta').value = "";
         document.getElementById('buscadorVenta').value = "";
@@ -264,7 +299,7 @@
         let total = 0;
 
         if(carrito.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#999;">Carrito vacío</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#999; padding:20px;">El carrito está vacío</td></tr>';
         } else {
             carrito.forEach((item, index) => {
                 total += item.subtotal;
@@ -280,55 +315,126 @@
         totalDisplay.innerText = `Total Ticket: $${total.toFixed(2)}`;
     }
 
-    // 3. PROCESAR VENTA (FINALIZAR TICKET)
+    // 3. COBRAR TICKET (Batch Write)
     window.procesarVentaCompleta = async function() {
         if(carrito.length === 0) return alert("El carrito está vacío");
-        if(!confirm(`¿Cobrar ticket por un total de $${carrito.reduce((a,b)=>a+b.subtotal,0).toFixed(2)}?`)) return;
+        if(!confirm(`¿Confirmar venta por $${carrito.reduce((a,b)=>a+b.subtotal,0).toFixed(2)}?`)) return;
 
         try {
-            const batch = writeBatch(db); // Para operaciones atómicas (todo o nada)
+            const batch = writeBatch(db);
             let totalVenta = 0;
             let totalGanancia = 0;
             
-            // 1. Preparar actualizaciones de stock
             for (const item of carrito) {
                 const prodRef = doc(db, "juguetes", item.id);
-                // Buscamos stock actual 'fresco' (simplificado usando la copia local por velocidad, idealmente leer de BD)
+                // Validación simple de stock basada en copia local
                 const prodActual = inventarioLocal.find(p => p.id === item.id);
-                
-                if(prodActual.existencia < item.cantidad) {
-                    throw new Error(`Stock cambió para ${item.nombre}. Venta cancelada.`);
-                }
+                if(prodActual.existencia < item.cantidad) throw new Error(`Stock insuficiente para ${item.nombre}`);
                 
                 batch.update(prodRef, { "existencia": prodActual.existencia - item.cantidad });
-                
                 totalVenta += item.subtotal;
                 totalGanancia += (item.precioVenta - item.costoCompra) * item.cantidad;
             }
 
-            // 2. Guardar el Ticket
             const ventaRef = doc(collection(db, "ventas"));
             batch.set(ventaRef, {
                 fecha: serverTimestamp(),
-                items: carrito, // Guardamos TODO el array de productos
+                items: carrito,
                 totalTicket: totalVenta,
                 gananciaTicket: totalGanancia
             });
 
             await batch.commit();
 
-            alert("✅ ¡Venta registrada exitosamente!");
+            alert("✅ Venta Exitosa");
             carrito = [];
             actualizarVistaCarrito();
             
         } catch (e) {
-            alert("Error al procesar venta: " + e.message);
+            alert("Error: " + e.message);
         }
     }
 
-    // 4. REPORTE DE VENTAS (TIPO TICKET)
-    const qVentas = query(colVentas, orderBy("fecha", "desc"), limit(30));
-    onSnapshot(qVentas, (snapshot) => {
+    // 4. LOGICA DE INGRESO Y EDICIÓN
+    window.editarDesdeTabla = function(id) {
+        const prod = inventarioLocal.find(p => p.id === id);
+        if(prod) {
+            document.getElementById('codigo').value = prod.codigo;
+            document.getElementById('nombre').value = prod.nombre;
+            document.getElementById('precioCompra').value = prod.precioCompra;
+            document.getElementById('precioVenta').value = prod.precioVenta;
+            document.getElementById('existencia').value = ''; 
+            
+            idEditando = prod.id;
+            const modo = document.getElementById('modoInfo');
+            modo.innerText = `🔄 EDITANDO DATOS DE: ${prod.nombre}`;
+            modo.style.display = 'block';
+            
+            const btn = document.getElementById('btnGuardar');
+            btn.innerText = "Actualizar Datos";
+            btn.className = "action-btn btn-orange";
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            mostrarSeccion('inventario');
+        }
+    }
+
+    window.verificarProducto = function() {
+        const cod = document.getElementById('codigo').value;
+        const prod = inventarioLocal.find(j => j.codigo === cod);
+        
+        if(prod) {
+            window.editarDesdeTabla(prod.id); // Reutilizamos la función de editar
+        } else {
+            // Producto Nuevo
+            idEditando = null;
+            document.getElementById('modoInfo').style.display = 'none';
+            document.getElementById('btnGuardar').innerText = "Guardar Nuevo Producto";
+            document.getElementById('btnGuardar').className = "action-btn btn-green";
+            // No limpiamos nombre/precio si el usuario ya escribió algo
+        }
+    }
+
+    window.procesarIngreso = async function() {
+        const c = document.getElementById('codigo').value;
+        const n = document.getElementById('nombre').value;
+        const pc = parseFloat(document.getElementById('precioCompra').value);
+        const pv = parseFloat(document.getElementById('precioVenta').value);
+        const st = parseInt(document.getElementById('existencia').value);
+
+        if(!c || !n || isNaN(pc) || isNaN(pv)) return alert("Faltan datos obligatorios (Código, Nombre, Precios)");
+
+        try {
+            if(idEditando) {
+                const old = inventarioLocal.find(j => j.id === idEditando);
+                const cantidadAAgregar = isNaN(st) ? 0 : st; // Si no pone nada, suma 0
+                const nuevoStock = old.existencia + cantidadAAgregar;
+                
+                await updateDoc(doc(db, "juguetes", idEditando), {
+                    nombre: n, precioCompra: pc, precioVenta: pv, existencia: nuevoStock
+                });
+                
+                if(cantidadAAgregar > 0 || pc !== old.precioCompra || pv !== old.precioVenta) {
+                     await addDoc(colMovimientos, {
+                         fecha: serverTimestamp(), nombre: n, accion: "ACTUALIZACIÓN", 
+                         detalle: `Stock: ${old.existencia}->${nuevoStock}. Precio: $${pv}`
+                     });
+                }
+                alert("Producto Actualizado ✅");
+            } else {
+                if(isNaN(st)) return alert("Ingresa la cantidad inicial");
+                if(inventarioLocal.some(j => j.codigo === c)) return alert("Ese código ya existe");
+                
+                await addDoc(colJuguetes, { codigo: c, nombre: n, precioCompra: pc, precioVenta: pv, existencia: st });
+                await addDoc(colMovimientos, { fecha: serverTimestamp(), nombre: n, accion: "NUEVO", detalle: `Inicio: ${st}` });
+                alert("Producto Creado ✅");
+            }
+            limpiarInputs();
+        } catch (e) { alert("Error: " + e.message); }
+    }
+
+    // 5. REPORTES Y EXPORTACIÓN
+    onSnapshot(query(colVentas, orderBy("fecha", "desc"), limit(30)), (snapshot) => {
         const tbody = document.getElementById("listaVentas");
         tbody.innerHTML = "";
         let sumaVenta = 0, sumaGanancia = 0;
@@ -336,111 +442,115 @@
 
         snapshot.forEach((doc) => {
             const v = doc.data();
-            const fecha = v.fecha ? v.fecha.toDate() : new Date();
-            const esHoy = fecha.toLocaleDateString() === hoy;
+            const f = v.fecha ? v.fecha.toDate() : new Date();
+            const esHoy = f.toLocaleDateString() === hoy;
             
-            // Compatibilidad con ventas viejas (unitarias) vs nuevas (tickets)
-            let detalleHTML = "";
-            let totalTicket = 0;
-            let gananciaTicket = 0;
+            let htmlDetalle = "";
+            let total = 0, ganancia = 0;
 
-            if (v.items && Array.isArray(v.items)) {
-                // ES UN TICKET NUEVO (Array)
-                totalTicket = v.totalTicket;
-                gananciaTicket = v.gananciaTicket || 0;
-                
-                // Crear lista bonita de items
-                v.items.forEach(item => {
-                    detalleHTML += `<div>• ${item.nombre} <small>(x${item.cantidad})</small></div>`;
-                });
-
-            } else {
-                // ES UNA VENTA ANTIGUA (Unitaria)
-                totalTicket = v.total;
-                gananciaTicket = v.gananciaTotal || 0;
-                detalleHTML = `<div>• ${v.nombreProducto} <small>(x${v.cantidad})</small></div>`;
+            if(v.items) { // Ticket Nuevo
+                total = v.totalTicket; ganancia = v.gananciaTicket || 0;
+                v.items.forEach(i => htmlDetalle += `<div>• ${i.nombre} <small>(x${i.cantidad})</small></div>`);
+            } else { // Ticket Viejo
+                total = v.total; ganancia = v.gananciaTotal || 0;
+                htmlDetalle = `<div>• ${v.nombreProducto} <small>(x${v.cantidad})</small></div>`;
             }
 
-            if(esHoy) { sumaVenta += totalTicket; sumaGanancia += gananciaTicket; }
+            if(esHoy) { sumaVenta += total; sumaGanancia += ganancia; }
 
             tbody.innerHTML += `
-                <tr style="background: ${esHoy ? '#f9fff9' : 'white'}">
-                    <td>${fecha.toLocaleDateString()} <br> ${fecha.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td>
-                    <td>${detalleHTML}</td>
-                    <td style="font-weight:bold; color:#1a73e8;">$${totalTicket.toFixed(2)}</td>
+                <tr style="background:${esHoy?'#f0fff4':'white'}">
+                    <td>${f.toLocaleDateString()}<br>${f.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td>
+                    <td>${htmlDetalle}</td>
+                    <td style="font-weight:bold">$${total.toFixed(2)}</td>
                 </tr>`;
         });
         document.getElementById("totalDia").innerText = `$${sumaVenta.toFixed(2)}`;
         document.getElementById("gananciaDia").innerText = `$${sumaGanancia.toFixed(2)}`;
     });
+    
+    // MOVIMIENTOS
+    onSnapshot(query(colMovimientos, orderBy("fecha", "desc"), limit(20)), (snap)=>{
+        const tb=document.getElementById("listaMovimientos"); tb.innerHTML="";
+        snap.forEach(d=>{ const m=d.data(); tb.innerHTML+=`<tr><td>${m.fecha?m.fecha.toDate().toLocaleDateString():''}</td><td>${m.nombre}</td><td>${m.accion}<br><small>${m.detalle}</small></td></tr>`; });
+    });
 
-    // 5. EXPORTAR VENTAS (DESGLOSADO)
+    // EXPORTAR EXCEL
+    window.exportarInventario = function() {
+        let csv = "Codigo,Nombre,Stock,Costo,Venta,ValorCosto,ValorVenta\n";
+        inventarioLocal.forEach(p => csv += `"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra},${p.precioVenta},${p.existencia*p.precioCompra},${p.existencia*p.precioVenta}\n`);
+        descargarCSV(csv, "Inventario_Completo.csv");
+    }
+
     window.exportarVentas = async function() {
         if(!confirm("Descargar historial completo?")) return;
-        const snapshot = await getDocs(query(colVentas, orderBy("fecha", "desc")));
-        
-        let csv = "ID Ticket,Fecha,Hora,Producto,Cantidad,Precio Venta,Costo,Subtotal Venta,Subtotal Ganancia\n";
-        
-        snapshot.forEach(doc => {
-            const v = doc.data();
-            const f = v.fecha ? v.fecha.toDate() : new Date();
-            const idTicket = doc.id;
-
-            if(v.items && Array.isArray(v.items)) {
-                // Desglosar ticket
-                v.items.forEach(item => {
-                    const subGanancia = (item.precioVenta - item.costoCompra) * item.cantidad;
-                    csv += `"${idTicket}","${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${item.nombre}",${item.cantidad},${item.precioVenta},${item.costoCompra},${item.subtotal},${subGanancia}\n`;
-                });
+        const snaps = await getDocs(query(colVentas, orderBy("fecha", "desc")));
+        let csv = "ID,Fecha,Hora,Producto,Cantidad,CostoUnit,VentaUnit,Subtotal,SubGanancia\n";
+        snaps.forEach(doc => {
+            const v = doc.data(); const f = v.fecha?v.fecha.toDate():new Date();
+            if(v.items) {
+                v.items.forEach(i => csv += `"${doc.id}","${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${i.nombre}",${i.cantidad},${i.costoCompra},${i.precioVenta},${i.subtotal},${(i.precioVenta-i.costoCompra)*i.cantidad}\n`);
             } else {
-                // Venta vieja
-                csv += `"${idTicket}","${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${v.nombreProducto}",${v.cantidad},${v.precioVentaUnitario},${v.costoUnitarioSnapshot},${v.total},${v.gananciaTotal}\n`;
+                csv += `"${doc.id}","${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${v.nombreProducto}",${v.cantidad},${v.costoUnitarioSnapshot},${v.precioVentaUnitario},${v.total},${v.gananciaTotal}\n`;
             }
         });
         descargarCSV(csv, "Reporte_Ventas_Detallado.csv");
     }
 
-    // --- FUNCIONES AUXILIARES (Iguales) ---
-    window.exportarInventario = function() {
-        let csv = "Codigo,Nombre,Stock,Costo,Venta\n";
-        inventarioLocal.forEach(p => csv += `"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra},${p.precioVenta}\n`);
-        descargarCSV(csv, "Inventario.csv");
-    }
     function descargarCSV(content, name) {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(new Blob([content], {type:'text/csv;charset=utf-8;'}));
+        const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([content], {type:'text/csv;charset=utf-8;'}));
         link.download = name; link.click();
     }
-    window.limpiarInputs = function() { document.querySelectorAll('#inventario input').forEach(i => i.value = ''); idEditando=null; document.getElementById('modoInfo').style.display='none'; document.getElementById('btnGuardar').innerText="Guardar Producto"; }
-    window.filtrarInventarioLocal = function() { const t=document.getElementById('buscador').value.toLowerCase(); document.querySelectorAll('#tbodyInventario tr').forEach(r => r.style.display=r.innerText.toLowerCase().includes(t)?'':'none'); }
-    
-    // INGRESO
-    window.verificarProducto = function() {
-        const cod = document.getElementById('codigo').value; const prod = inventarioLocal.find(j=>j.codigo===cod);
-        if(prod) { idEditando=prod.id; document.getElementById('nombre').value=prod.nombre; document.getElementById('precioCompra').value=prod.precioCompra; document.getElementById('precioVenta').value=prod.precioVenta; document.getElementById('existencia').value=''; document.getElementById('modoInfo').innerText=`EDITANDO: ${prod.nombre}`; document.getElementById('modoInfo').style.display='block'; document.getElementById('btnGuardar').innerText="Actualizar"; }
-        else { idEditando=null; document.getElementById('modoInfo').style.display='none'; document.getElementById('btnGuardar').innerText="Guardar Producto"; }
+
+    // UTILIDADES
+    window.limpiarInputs = function() { 
+        document.querySelectorAll('#inventario input').forEach(i => i.value = ''); 
+        idEditando=null; 
+        document.getElementById('modoInfo').style.display='none'; 
+        document.getElementById('btnGuardar').innerText="Guardar Producto"; 
+        document.getElementById('btnGuardar').className="action-btn btn-green";
     }
-    window.procesarIngreso = async function() {
-        const c=document.getElementById('codigo').value; const n=document.getElementById('nombre').value; const pc=parseFloat(document.getElementById('precioCompra').value); const pv=parseFloat(document.getElementById('precioVenta').value); const st=parseInt(document.getElementById('existencia').value);
-        if(!c||!n) return alert("Datos faltantes");
-        if(idEditando) {
-             const old=inventarioLocal.find(j=>j.id===idEditando); const nSt=old.existencia+st;
-             await updateDoc(doc(db,"juguetes",idEditando),{nombre:n,precioCompra:pc,precioVenta:pv,existencia:nSt});
-             await addDoc(colMovimientos,{fecha:serverTimestamp(),nombre:n,accion:"INGRESO/CAMBIO",detalle:`Stock ${old.existencia}->${nSt}`});
-        } else {
-             if(inventarioLocal.some(j=>j.codigo===c)) return alert("Código existe");
-             await addDoc(colJuguetes,{codigo:c,nombre:n,precioCompra:pc,precioVenta:pv,existencia:st});
-             await addDoc(colMovimientos,{fecha:serverTimestamp(),nombre:n,accion:"NUEVO",detalle:`Inicio: ${st}`});
-        }
-        alert("Guardado"); limpiarInputs();
+    
+    window.filtrarInventarioLocal = function() { 
+        const t = document.getElementById('buscador').value.toLowerCase(); 
+        document.querySelectorAll('#tbodyInventario tr').forEach(r => r.style.display=r.innerText.toLowerCase().includes(t)?'':'none'); 
+    }
+    
+    window.buscarYSeleccionar = function() { 
+        const c = document.getElementById('buscadorVenta').value; 
+        const f = inventarioLocal.find(j=>j.codigo===c); 
+        if(f){ document.getElementById('selectProductoVenta').value=f.id; } 
+    }
+    
+    window.mostrarSeccion = function(s){ 
+        document.querySelectorAll('.section').forEach(x=>{x.classList.remove('active');x.style.display='none'}); 
+        document.getElementById(s).style.display='block'; 
+        document.getElementById(s).classList.add('active'); 
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); 
+        event.target.classList.add('active'); 
     }
 
-    // CAMARA / BUSQUEDA
-    window.buscarYSeleccionar = function() { const c=document.getElementById('buscadorVenta').value; const f=inventarioLocal.find(j=>j.codigo===c); if(f){ document.getElementById('selectProductoVenta').value=f.id; } }
+    // CÁMARA
     let sc; let inp;
-    window.iniciarEscaneo=function(i){ inp=i; document.getElementById('reader').style.display='block'; document.getElementById('btnStopScan').style.display='block'; sc=new Html5Qrcode("reader"); sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{ document.getElementById(inp).value=t; detenerEscaneo(); if(inp==='codigo')verificarProducto(); if(inp==='buscadorVenta'){ window.buscarYSeleccionar(); } }); }
-    window.detenerEscaneo=function(){ if(sc){ sc.stop().then(()=>{ document.getElementById('reader').style.display='none'; document.getElementById('btnStopScan').style.display='none'; sc.clear(); }); } }
-    window.mostrarSeccion=function(s){ document.querySelectorAll('.section').forEach(x=>{x.classList.remove('active');x.style.display='none'}); document.getElementById(s).style.display='block'; document.getElementById(s).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); }
+    window.iniciarEscaneo=function(i){ 
+        inp=i; 
+        document.getElementById('reader').style.display='block'; 
+        document.getElementById('btnStopScan').style.display='block'; 
+        sc=new Html5Qrcode("reader"); 
+        sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{ 
+            document.getElementById(inp).value=t; 
+            detenerEscaneo(); 
+            if(inp==='codigo') verificarProducto(); 
+            if(inp==='buscadorVenta') window.buscarYSeleccionar(); 
+        }); 
+    }
+    window.detenerEscaneo=function(){ 
+        if(sc){ sc.stop().then(()=>{ 
+            document.getElementById('reader').style.display='none'; 
+            document.getElementById('btnStopScan').style.display='none'; 
+            sc.clear(); 
+        }); } 
+    }
 </script>
 </body>
 </html>
