@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería CamAya 💳</title>
+    <title>Juguetería CamAya V 2.0 💳</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
@@ -12,24 +12,21 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* --- ESTILOS GENERALES --- */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; padding-bottom: 60px; }
+        /* ESTILOS (Mantenemos la estética limpia) */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; padding-bottom: 70px; }
         .container { max-width: 1000px; margin: 0 auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
         .header-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
         .app-logo { width: 50px; height: 50px; object-fit: contain; }
         h1 { margin: 0; color: #1a73e8; font-size: 1.8rem; }
         
-        /* Navegación */
         .tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #e8eaed; padding: 5px; border-radius: 12px; overflow-x: auto; }
         .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; border-radius: 8px; }
         .tab-btn.active { background: white; color: #1a73e8; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        /* Inputs y Botones */
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 0.9rem; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #f9f9f9; }
-        input:focus { border-color: #1a73e8; background: #fff; outline: none; }
         
         .row-inputs { display: flex; gap: 10px; }
         .half { flex: 1; }
@@ -43,20 +40,16 @@
         .btn-purple { background: #673ab7; }
         .btn-export { background: #188038; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; margin-bottom: 10px; cursor: pointer; font-size: 14px; }
 
-        /* Botones Pequeños */
         .btn-icon { border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; font-size: 16px; color: white; }
         
-        /* Carrito */
         .cart-container { border: 2px dashed #ccc; padding: 15px; border-radius: 10px; background: #fafafa; margin-top: 15px; }
         .cart-total { font-size: 26px; color: #1a73e8; font-weight: 800; text-align: right; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px; }
         
-        /* Tablas */
         .table-container { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; background: white; }
         th { background: #f1f3f4; padding: 12px; text-align: left; border-bottom: 2px solid #ddd; color: #555; }
         td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .profit { color: #137333; font-weight: bold; }
-
+        
         /* Acordeón */
         .ticket-row { cursor: pointer; transition: background 0.2s; }
         .ticket-row:hover { background-color: #f1f3f4; }
@@ -65,12 +58,11 @@
         .rotated { transform: rotate(90deg); display:inline-block; transition: 0.3s; }
         
         /* Estilos Cobranza */
-        .debt-card { background: #fff8e1; border: 1px solid #ffecb3; padding: 15px; margin-bottom: 10px; border-radius: 8px; }
-        .progress-bar { background: #ddd; height: 10px; border-radius: 5px; margin: 10px 0; overflow: hidden; }
+        .debt-card { background: #fff8e1; border: 1px solid #ffecb3; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .progress-bar { background: #e0e0e0; height: 12px; border-radius: 6px; margin: 10px 0; overflow: hidden; }
         .progress-fill { background: #4caf50; height: 100%; width: 0%; transition: width 0.5s; }
-        .debt-status { font-weight: bold; color: #e65100; float: right; }
+        .debt-remaining { color: #d32f2f; font-weight: bold; float: right; font-size: 1.1em; }
 
-        /* Utilidades */
         #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; }
         .section { display: none; animation: fadeIn 0.3s; }
         .section.active { display: block; }
@@ -148,35 +140,28 @@
     </div>
 
     <div id="cobranza" class="section">
-        <h3>📒 Cuentas por Cobrar (Créditos)</h3>
-        <p style="color:#666; font-size:0.9em;">Aquí están las ventas a crédito pendientes de pago.</p>
+        <h3>📒 Cuentas por Cobrar</h3>
+        <p style="color:#666; font-size:0.9em; margin-bottom:15px;">Si esta lista sale vacía y tienes créditos, debes crear el ÍNDICE en Firebase.</p>
         <div id="listaCreditos"></div>
     </div>
 
     <div id="inventario" class="section">
         <div id="modoInfo" class="modo-editar"></div>
         <button class="btn-export" onclick="exportarInventario()">📥 Descargar Inventario (Excel)</button>
-
         <div class="form-group"><div class="input-group"><input type="text" id="codigo" placeholder="Escanear..." onchange="verificarProducto()"><button class="btn-scan" onclick="iniciarEscaneo('codigo')">📷</button></div></div>
         <div class="form-group"><input type="text" id="nombre" placeholder="Nombre"></div>
-        <div class="row-inputs">
-            <div class="form-group half"><input type="number" id="precioCompra" placeholder="Costo $" step="0.50"></div>
-            <div class="form-group half"><input type="number" id="precioVenta" placeholder="Venta $" step="0.50"></div>
-        </div>
+        <div class="row-inputs"><div class="form-group half"><input type="number" id="precioCompra" placeholder="Costo" step="0.50"></div><div class="form-group half"><input type="number" id="precioVenta" placeholder="Venta" step="0.50"></div></div>
         <div class="form-group"><input type="number" id="existencia" placeholder="Cantidad"></div>
         <button id="btnGuardar" class="action-btn btn-green" onclick="procesarIngreso()">Guardar Producto</button>
         <button class="action-btn" style="background:#9aa0a6; margin-top:10px;" onclick="limpiarInputs()">Limpiar</button>
-
-        <h3 style="margin-top:20px;">Inventario Actual</h3>
+        <h3 style="margin-top:20px;">Inventario</h3>
         <input type="text" id="buscador" placeholder="🔍 Buscar..." onkeyup="filtrarInventarioLocal()">
         <div class="table-container"><table id="tablaInventario"><thead><tr><th>Producto</th><th>Stock</th><th>Precios</th><th>Acciones</th></tr></thead><tbody id="tbodyInventario"></tbody></table></div>
     </div>
 
     <div id="reportes" class="section">
         <button class="btn-export" onclick="exportarVentas()">📥 Descargar Historial (Excel)</button>
-        <div class="table-container">
-            <table><thead><tr><th>Fecha</th><th>Cliente/Ticket</th><th>Total</th></tr></thead><tbody id="listaVentas"></tbody></table>
-        </div>
+        <div class="table-container"><table><thead><tr><th>Fecha</th><th>Cliente/Detalle</th><th>Total</th></tr></thead><tbody id="listaVentas"></tbody></table></div>
     </div>
 
     <div id="movimientos" class="section">
@@ -209,7 +194,7 @@
     let idEditando = null;
     let carrito = [];
 
-    // 1. CARGA DE DATOS
+    // 1. CARGA INVENTARIO
     onSnapshot(colJuguetes, (snapshot) => {
         inventarioLocal = [];
         const tbody = document.getElementById("tbodyInventario");
@@ -228,7 +213,7 @@
         window.borrar = (id) => { if(confirm("¿Borrar?")) deleteDoc(doc(db, "juguetes", id)); };
     });
 
-    // 2. LÓGICA DE VENTA (NUEVA CON CRÉDITO)
+    // 2. VENTA (CARRITO)
     window.verificarTipoPago = function() {
         const tipo = document.getElementById('tipoPago').value;
         document.getElementById('divPagoInicial').style.display = (tipo === 'CREDITO') ? 'block' : 'none';
@@ -253,7 +238,7 @@
 
     function actualizarCarrito() {
         const tb = document.getElementById('listaCarrito'); tb.innerHTML = ""; let t = 0;
-        carrito.forEach((i, idx) => { t += i.subtotal; tb.innerHTML += `<tr><td>${i.nombre}</td><td>${i.cantidad}</td><td>$${i.subtotal}</td><td><button style="background:#ffcccc;color:red;border:none;" onclick="remCar(${idx})">X</button></td></tr>`; });
+        carrito.forEach((i, idx) => { t += i.subtotal; tb.innerHTML += `<tr><td>${i.nombre}</td><td>${i.cantidad}</td><td>$${i.subtotal.toFixed(2)}</td><td><button style="background:#ffcccc;color:red;border:none;" onclick="remCar(${idx})">X</button></td></tr>`; });
         document.getElementById('totalCarritoDisplay').innerText = `Total: $${t.toFixed(2)}`;
         if(carrito.length===0) tb.innerHTML='<tr><td colspan="4" style="text-align:center">Vacío</td></tr>';
     }
@@ -262,7 +247,6 @@
     window.procesarVentaCompleta = async function() {
         if(carrito.length === 0) return alert("Carrito vacío");
         
-        // Datos del formulario de pago
         const cliente = document.getElementById('clienteVenta').value || "Público General";
         const tipoPago = document.getElementById('tipoPago').value;
         const totalVenta = carrito.reduce((a,b)=>a+b.subtotal,0);
@@ -270,18 +254,15 @@
 
         if(tipoPago === 'CREDITO') {
             pagoInicial = parseFloat(document.getElementById('pagoInicial').value) || 0;
-            if(pagoInicial >= totalVenta) return alert("Si el pago inicial cubre el total, cámbialo a CONTADO.");
-        } else {
-            pagoInicial = totalVenta; // En contado se paga todo
-        }
+            if(pagoInicial >= totalVenta) return alert("Si paga completo, usa CONTADO.");
+        } else { pagoInicial = totalVenta; }
 
-        if(!confirm(`¿Confirmar venta a ${cliente} (${tipoPago})?`)) return;
+        if(!confirm(`Confirmar venta a ${cliente}?`)) return;
 
         try {
             const batch = writeBatch(db);
             let totalGanancia = 0;
 
-            // 1. Descontar Inventario (SIEMPRE SE DESCUENTA)
             for (const item of carrito) {
                 const ref = doc(db, "juguetes", item.id);
                 const actual = inventarioLocal.find(p => p.id === item.id);
@@ -290,7 +271,6 @@
                 totalGanancia += (item.precioVenta - item.costoCompra) * item.cantidad;
             }
 
-            // 2. Crear Registro de Venta
             const ventaRef = doc(collection(db, "ventas"));
             const estadoVenta = (tipoPago === 'CONTADO') ? 'PAGADO' : 'PENDIENTE';
 
@@ -302,12 +282,11 @@
                 items: carrito,
                 totalTicket: totalVenta,
                 pagadoHastaAhora: pagoInicial,
-                historialPagos: [{ fecha: new Date(), monto: pagoInicial, nota: "Pago Inicial/Contado" }],
+                historialPagos: [{ fecha: new Date(), monto: pagoInicial, nota: "Pago Inicial" }],
                 gananciaTicket: totalGanancia
             });
 
             await batch.commit();
-
             alert("✅ Venta Guardada");
             carrito = []; actualizarCarrito();
             document.getElementById('clienteVenta').value = "Público General";
@@ -323,95 +302,51 @@
         const div = document.getElementById("listaCreditos");
         div.innerHTML = "";
         
-        if(snapshot.empty) div.innerHTML = "<p style='text-align:center'>¡Genial! No hay deudas pendientes.</p>";
+        if(snapshot.empty) div.innerHTML = "<p style='text-align:center; padding:20px; color:#666;'>No hay créditos pendientes o <strong>Falta crear el índice en Firebase</strong>.</p>";
 
         snapshot.forEach((doc) => {
             const v = doc.data();
             const id = doc.id;
             const fecha = v.fecha ? v.fecha.toDate().toLocaleDateString() : "";
-            const porcentaje = (v.pagadoHastaAhora / v.totalTicket) * 100;
-            const restante = v.totalTicket - v.pagadoHastaAhora;
+            const total = v.totalTicket;
+            const pagado = v.pagadoHastaAhora || 0;
+            const restante = total - pagado;
+            const porcentaje = (pagado / total) * 100;
 
             div.innerHTML += `
                 <div class="debt-card">
-                    <span class="debt-status">Restan: $${restante.toFixed(2)}</span>
+                    <span class="debt-remaining">Restan: $${restante.toFixed(2)}</span>
                     <strong>👤 ${v.cliente}</strong> <small>(${fecha})</small><br>
-                    Total Venta: $${v.totalTicket}
+                    Deuda Total: $${total.toFixed(2)}
                     
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:${porcentaje}%"></div>
-                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${porcentaje}%"></div></div>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <small>Pagado: $${v.pagadoHastaAhora.toFixed(2)} (${Math.round(porcentaje)}%)</small>
-                        <button class="btn-icon btn-purple" onclick="abonar('${id}', ${restante})">💲 Abonar</button>
+                        <small>Pagado: $${pagado.toFixed(2)} (${Math.round(porcentaje)}%)</small>
+                        <button class="btn-icon btn-purple" onclick="abonar('${id}', ${restante}, ${pagado})">💲 Abonar</button>
                     </div>
                 </div>`;
         });
-        
-        window.abonar = async (id, maximo) => {
-            const monto = parseFloat(prompt(`Deuda actual: $${maximo.toFixed(2)}\n¿Cuánto abona el cliente?`));
-            if(!monto || monto <= 0) return;
-            if(monto > maximo) return alert("El abono no puede ser mayor a la deuda.");
-
-            const ventaRef = doc(db, "ventas", id);
-            // Leemos el documento actual para asegurar datos frescos
-            // (Simplificado aquí, asumimos consistencia)
-            
-            // Si liquida la deuda
-            if(monto === maximo) {
-                await updateDoc(ventaRef, {
-                    pagadoHastaAhora: maximo + (maximo - restante_simulado(maximo, monto)), // Logic fix: increment current
-                    pagadoHastaAhora:  firebase.firestore.FieldValue.increment(monto), // Better approach
-                    estado: 'PAGADO',
-                    historialPagos: arrayUnion({ fecha: new Date(), monto: monto, nota: "Liquidación" })
-                });
-                alert("¡Deuda Saldada! 🎉");
-            } else {
-                 // Abono parcial
-                 // Nota: Usamos arrayUnion y increment para ser atómicos
-                 // Necesitamos importar increment si queremos ser puristas, pero aquí haremos lectura simple para update
-                 // Truco rápido: volver a leer en snapshot es automático
-            }
-        };
-        
-        // RE-DEFINICIÓN CORRECTA DE ABONAR (Necesitaba contexto)
-        window.abonar = async (id, maximo) => {
-            const monto = parseFloat(prompt(`Restan $${maximo}. ¿Cuánto abona?`));
-            if(!monto || monto<=0 || monto>maximo) return alert("Monto inválido");
-            
-            // Leer documento actual para sumar bien
-            // (Para este ejemplo simple usaremos update directo asumiendo snapshot actualizado)
-            // Necesitamos 'increment' y 'arrayUnion'
-            const ref = doc(db, "ventas", id);
-            
-            // Calculamos nuevo total pagado (esto se hace mejor con increment, pero lo haremos manual por claridad)
-            // Obtenemos el doc del array local (snapshot)
-            // Pero snapshot es variable local del observer...
-            // Solución: Buscar en DOM o volver a consultar es complejo.
-            // Usaremos increment que ya importamos (o debimos importar)
-            // IMPORTANTE: Agregué 'increment' en los imports arriba? No, agreguémoslo ahora.
-        }
     });
 
-    // CORRECCIÓN FUNCIÓN ABONAR (Versión Final Funcional)
-    import { increment } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-    
-    window.abonar = async (id, deudaRestante) => {
-        const monto = parseFloat(prompt(`Deuda: $${deudaRestante}\nIngresa monto a abonar:`));
+    window.abonar = async (id, restante, pagadoActual) => {
+        const monto = parseFloat(prompt(`Deuda: $${restante.toFixed(2)}\nIngresa monto a abonar:`));
         if(!monto || monto <= 0) return;
+        if(monto > restante) return alert("No puedes abonar más de la deuda.");
         
-        const ref = doc(db, "ventas", id);
-        const nuevoEstado = (monto >= deudaRestante) ? 'PAGADO' : 'PENDIENTE';
+        const nuevoPagado = pagadoActual + monto;
+        const nuevoEstado = (monto >= restante) ? 'PAGADO' : 'PENDIENTE';
         
-        await updateDoc(ref, {
-            pagadoHastaAhora: increment(monto),
-            estado: nuevoEstado,
-            historialPagos: arrayUnion({ fecha: new Date(), monto: monto, nota: "Abono" })
-        });
-        alert("Abono registrado ✅");
+        try {
+            await updateDoc(doc(db, "ventas", id), {
+                pagadoHastaAhora: nuevoPagado,
+                estado: nuevoEstado,
+                historialPagos: arrayUnion({ fecha: new Date(), monto: monto, nota: "Abono" })
+            });
+            alert("Abono registrado ✅");
+        } catch(e) { alert("Error: " + e.message); }
     }
 
-    // 4. TICKETS Y ACORDEÓN
+    // 4. TICKETS (ACORDEÓN MEJORADO CON DEUDA)
     onSnapshot(query(colVentas, orderBy("fecha", "desc"), limit(30)), (s) => {
         const tb = document.getElementById("listaVentas"); tb.innerHTML="";
         s.forEach(d => {
@@ -421,20 +356,27 @@
             if(v.items) v.items.forEach(i=>det+=`<div>${i.nombre} x${i.cantidad}</div>`);
             else det = v.nombreProducto;
 
-            // Etiqueta de estado
-            const etiqueta = v.estado === 'PENDIENTE' ? '<span style="color:orange;font-weight:bold">[CRÉDITO]</span>' : '<span style="color:green;font-weight:bold">[PAGADO]</span>';
+            // Lógica de visualización de deuda
+            let estadoHTML = "";
+            if(v.estado === 'PENDIENTE') {
+                const debe = v.totalTicket - (v.pagadoHastaAhora || 0);
+                estadoHTML = `<span style="color:orange; font-weight:bold;">[PENDIENTE]</span> <span style="color:red; font-size:0.9em;">(Resta: $${debe.toFixed(2)})</span>`;
+            } else {
+                estadoHTML = `<span style="color:green; font-weight:bold;">[PAGADO]</span>`;
+            }
 
             tb.innerHTML += `
             <tr class="ticket-row" onclick="toggle('${id}')">
                 <td><span id="ic-${id}" class="rotated" style="transform:none">▶</span> ${f.toLocaleDateString()}</td>
-                <td>${v.cliente} <br> ${etiqueta}</td>
-                <td><strong>$${v.totalTicket}</strong></td>
+                <td>${v.cliente} <br> ${estadoHTML}</td>
+                <td><strong>$${v.totalTicket.toFixed(2)}</strong></td>
             </tr>
             <tr id="det-${id}" class="ticket-details-row"><td colspan="3"><div class="detail-content">
                 <strong>Items:</strong>${det}<br>
                 <hr>
+                Total Ticket: $${v.totalTicket}<br>
                 Pagado: $${v.pagadoHastaAhora}<br>
-                Estado: ${v.estado}
+                Historial Pagos: ${v.historialPagos ? v.historialPagos.length : 0} abonos.
             </div></td></tr>`;
         });
     });
@@ -444,7 +386,7 @@
         else{r.style.display="table-row";i.style.transform="rotate(90deg)";}
     }
 
-    // EXPORTS Y UTILS (Sin cambios mayores)
+    // UTILS
     window.editar = (id) => { const p=inventarioLocal.find(x=>x.id===id); if(p){document.getElementById('codigo').value=p.codigo; document.getElementById('nombre').value=p.nombre; document.getElementById('precioCompra').value=p.precioCompra; document.getElementById('precioVenta').value=p.precioVenta; idEditando=p.id; document.getElementById('modoInfo').innerText=`EDITANDO: ${p.nombre}`; document.getElementById('modoInfo').style.display='block'; document.getElementById('btnGuardar').innerText="Actualizar"; window.scrollTo(0,0); mostrarSeccion('inventario');}};
     window.verificarProducto = () => { const c=document.getElementById('codigo').value; const p=inventarioLocal.find(x=>x.codigo===c); if(p) window.editar(p.id); else { idEditando=null; document.getElementById('modoInfo').style.display='none'; document.getElementById('btnGuardar').innerText="Guardar"; }};
     window.procesarIngreso = async () => { const c=document.getElementById('codigo').value; const n=document.getElementById('nombre').value; const pc=parseFloat(document.getElementById('precioCompra').value); const pv=parseFloat(document.getElementById('precioVenta').value); const st=parseInt(document.getElementById('existencia').value); if(!c||!n)return alert("Faltan datos"); 
