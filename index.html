@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juguetería Master 📊</title>
+    <title>Juguetería POS 🛒</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <style>
-        /* ESTILOS (Mismos de la v4 con mejoras para botones de exportar) */
+        /* ESTILOS (Ajustados para el Carrito) */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
-        .container { max-width: 950px; margin: 0 auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h1 { text-align: center; color: #1a73e8; margin-bottom: 10px; font-size: 1.5rem; }
         
+        /* Navegación */
         .tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #e8eaed; padding: 5px; border-radius: 12px; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 12px 10px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #5f6368; white-space: nowrap; cursor: pointer; }
         .tab-btn.active { background: white; color: #1a73e8; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
+        /* Inputs Generales */
         .form-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 0.9rem; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
@@ -28,113 +30,133 @@
         .input-group { display: flex; gap: 8px; }
         .btn-scan { background: #5f6368; color: white; border: none; border-radius: 8px; padding: 0 15px; font-size: 20px; }
         
-        button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 10px; cursor: pointer; }
+        /* Botones */
+        button.action-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; color: white; margin-top: 5px; cursor: pointer; }
         .btn-green { background: #34a853; }
         .btn-blue { background: #1a73e8; }
         .btn-orange { background: #fbbc04; color: #222 !important; }
-        
-        /* Botones de Exportar */
-        .btn-export { background: #188038; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 5px; margin-bottom: 10px; width: 100%; justify-content: center; }
-        .btn-export:hover { background: #146c2e; }
+        .btn-red { background: #ea4335; }
+        .btn-export { background: #188038; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; margin-bottom: 10px; cursor: pointer; }
 
-        #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; }
+        /* Estilos específicos del Carrito */
+        .cart-container { border: 2px dashed #ccc; padding: 10px; border-radius: 10px; background: #fafafa; margin-top: 15px; }
+        .cart-total { font-size: 24px; color: #1a73e8; font-weight: bold; text-align: right; margin-top: 10px; }
+        .btn-remove { background: #ffcccc; color: #d32f2f; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        /* Tablas */
         .table-container { overflow-x: auto; margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
-        th { background: #f1f3f4; padding: 10px; text-align: left; color: #444; border-bottom: 2px solid #ddd; }
+        th { background: #f1f3f4; padding: 10px; text-align: left; border-bottom: 2px solid #ddd; }
         td { padding: 10px; border-bottom: 1px solid #eee; }
         .profit { color: #137333; font-weight: bold; }
-        .cost { color: #ea4335; }
-        .modo-editar { background: #fff3e0; color: #e65100; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: none; text-align: center; font-weight: bold; border: 1px solid #ffe0b2; }
         
+        /* Cámara y Secciones */
+        #reader { width: 100%; margin-bottom: 10px; display: none; border: 3px solid #1a73e8; border-radius: 10px; }
         .section { display: none; }
         .section.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modo-editar { background: #fff3e0; color: #e65100; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: none; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🧸 Juguetería Master</h1>
+    <h1>🛒 Juguetería POS</h1>
 
     <div id="reader"></div>
     <button id="btnStopScan" onclick="detenerEscaneo()" style="display:none; width:100%; background:#ea4335; color:white; padding:10px; margin-bottom:10px; border:none; border-radius:8px;">Cerrar Cámara</button>
 
     <div class="tabs">
+        <button class="tab-btn" onclick="mostrarSeccion('venta')">💰 Venta (Carrito)</button>
         <button class="tab-btn active" onclick="mostrarSeccion('inventario')">📦 Inventario</button>
-        <button class="tab-btn" onclick="mostrarSeccion('venta')">💰 Venta</button>
-        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📊 Reportes</button>
-        <button class="tab-btn" onclick="mostrarSeccion('movimientos')">🚚 Historial</button>
+        <button class="tab-btn" onclick="mostrarSeccion('reportes')">📜 Historial Tickets</button>
+        <button class="tab-btn" onclick="mostrarSeccion('movimientos')">🚚 Movimientos</button>
+    </div>
+
+    <div id="venta" class="section">
+        <h3>Agregar al Carrito</h3>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" id="buscadorVenta" placeholder="Escanear producto..." onchange="buscarYSeleccionar()">
+                <button class="btn-scan" onclick="iniciarEscaneo('buscadorVenta')">📷</button>
+            </div>
+        </div>
+
+        <div class="row-inputs">
+            <div class="form-group" style="flex: 2;">
+                <select id="selectProductoVenta"><option value="">-- Seleccionar --</option></select>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <input type="number" id="cantidadVenta" value="1" min="1" placeholder="Cant.">
+            </div>
+        </div>
+        <button class="action-btn btn-blue" onclick="agregarAlCarrito()">⬇️ Agregar al Carrito</button>
+
+        <div class="cart-container">
+            <h4>🛒 Carrito de Compras</h4>
+            <div class="table-container">
+                <table style="width:100%; min-width: auto;">
+                    <thead><tr><th>Prod.</th><th>Cant.</th><th>Subtotal</th><th>X</th></tr></thead>
+                    <tbody id="listaCarrito">
+                        <tr><td colspan="4" style="text-align:center; color:#999;">Carrito vacío</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="cart-total" id="totalCarritoDisplay">Total: $0.00</div>
+            <button class="action-btn btn-green" onclick="procesarVentaCompleta()">✅ COBRAR TICKET</button>
+        </div>
     </div>
 
     <div id="inventario" class="section active">
         <div id="modoInfo" class="modo-editar"></div>
-
-        <button class="btn-export" onclick="exportarInventario()">📥 Descargar Inventario Completo (Excel)</button>
+        <button class="btn-export" onclick="exportarInventario()">📥 Descargar Inventario (Excel)</button>
 
         <div class="form-group">
-            <label>Código de Barras:</label>
+            <label>Código:</label>
             <div class="input-group">
                 <input type="text" id="codigo" placeholder="Escanear..." onchange="verificarProducto()">
                 <button class="btn-scan" onclick="iniciarEscaneo('codigo')">📷</button>
             </div>
         </div>
-        
-        <div class="form-group"><label>Nombre:</label><input type="text" id="nombre"></div>
+        <div class="form-group"><input type="text" id="nombre" placeholder="Nombre"></div>
         <div class="row-inputs">
-            <div class="form-group half"><label>Costo Compra ($):</label><input type="number" id="precioCompra" step="0.50"></div>
-            <div class="form-group half"><label>Precio Venta ($):</label><input type="number" id="precioVenta" step="0.50"></div>
+            <div class="form-group half"><input type="number" id="precioCompra" placeholder="Costo $" step="0.50"></div>
+            <div class="form-group half"><input type="number" id="precioVenta" placeholder="Venta $" step="0.50"></div>
         </div>
-        <div class="form-group"><label>Cantidad a Ingresar:</label><input type="number" id="existencia"></div>
+        <div class="form-group"><input type="number" id="existencia" placeholder="Cantidad"></div>
 
         <button id="btnGuardar" class="action-btn btn-green" onclick="procesarIngreso()">Guardar Producto</button>
-        <button class="action-btn" style="background:#9aa0a6; margin-top:10px;" onclick="limpiarInputs()">Limpiar</button>
+        <button class="action-btn" style="background:#9aa0a6;" onclick="limpiarInputs()">Limpiar</button>
 
-        <h3 style="margin-top:20px">Inventario Actual</h3>
-        <input type="text" id="buscador" placeholder="🔍 Buscar..." onkeyup="filtrarInventarioLocal()" style="margin-bottom:10px;">
+        <h3 style="margin-top:20px">Lista Inventario</h3>
+        <input type="text" id="buscador" placeholder="🔍 Buscar..." onkeyup="filtrarInventarioLocal()">
         <div class="table-container">
             <table id="tablaInventario">
-                <thead><tr><th>Producto</th><th>Stock</th><th>Costo</th><th>Venta</th><th>Acción</th></tr></thead>
+                <thead><tr><th>Producto</th><th>Stock</th><th>Costo</th><th>Venta</th><th>X</th></tr></thead>
                 <tbody id="tbodyInventario"></tbody>
             </table>
         </div>
     </div>
 
-    <div id="venta" class="section">
-        <div style="text-align:center; padding:15px; background:#e8f0fe; border-radius:10px; margin-bottom:15px;">
-            <h2 id="totalVentaDisplay" style="margin:0; color:#1a73e8; font-size:36px;">$0.00</h2>
-        </div>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" id="buscadorVenta" placeholder="Escanear para vender..." onchange="buscarYSeleccionar()">
-                <button class="btn-scan" onclick="iniciarEscaneo('buscadorVenta')">📷</button>
-            </div>
-        </div>
-        <div class="form-group"><select id="selectProductoVenta" onchange="calcularTotalPreview()"><option value="">-- Seleccionar --</option></select></div>
-        <div class="form-group"><label>Cantidad:</label><input type="number" id="cantidadVenta" value="1" min="1" onchange="calcularTotalPreview()"></div>
-        <button class="action-btn btn-blue" onclick="venderEnNube()">Confirmar Venta</button>
-    </div>
-
     <div id="reportes" class="section">
-        
-        <button class="btn-export" onclick="exportarVentas()">📥 Descargar Historial de Ventas (Excel)</button>
-
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:#e6f4ea; padding:10px; border-radius:8px;">
-            <div><strong>Venta Hoy:</strong><br><span id="totalDia" style="font-size:18px;">$0.00</span></div>
-            <div style="text-align:right;"><strong>Ganancia Hoy:</strong><br><span id="gananciaDia" class="profit" style="font-size:18px;">$0.00</span></div>
+        <button class="btn-export" onclick="exportarVentas()">📥 Descargar Ventas Detalladas (Excel)</button>
+        <div style="background:#e6f4ea; padding:10px; border-radius:8px; margin-bottom:10px;">
+            <strong>Venta Hoy:</strong> <span id="totalDia" style="font-size:18px;">$0.00</span> | 
+            <strong>Ganancia:</strong> <span id="gananciaDia" class="profit">$0.00</span>
         </div>
         <div class="table-container">
             <table>
-                <thead><tr><th>Hora</th><th>Producto</th><th>Total</th><th>Ganancia</th></tr></thead>
+                <thead><tr><th>Fecha/Hora</th><th>Detalle del Ticket</th><th>Total</th></tr></thead>
                 <tbody id="listaVentas"></tbody>
             </table>
         </div>
     </div>
 
     <div id="movimientos" class="section">
-        <h3>Historial de Movimientos</h3>
+        <h3>Historial Entradas</h3>
         <div class="table-container">
             <table>
-                <thead><tr><th>Fecha</th><th>Producto</th><th>Acción</th><th>Detalle</th></tr></thead>
+                <thead><tr><th>Fecha</th><th>Producto</th><th>Acción</th></tr></thead>
                 <tbody id="listaMovimientos"></tbody>
             </table>
         </div>
@@ -143,18 +165,18 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, serverTimestamp, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     // ------------------------------------------------------------------
-    // ⚠️⚠️ PEGA TUS LLAVES DE FIREBASE AQUÍ ⚠️⚠️
+    // ⚠️⚠️ PEGA TUS LLAVES AQUÍ OTRA VEZ ⚠️⚠️
     const firebaseConfig = {
-    apiKey: "AIzaSyArONjJtmHU2doAPHpZF1aLGWostfvMXU8",
-    authDomain: "juguetescamaya.firebaseapp.com",
-    projectId: "juguetescamaya",
-    storageBucket: "juguetescamaya.firebasestorage.app",
-    messagingSenderId: "645609260652",
-    appId: "1:645609260652:web:6bed60f94237733086fa49"
-};
+        apiKey: "AIzaSyD-XXXXXXXXXXXXXXXXXXXXXXXXX",
+        authDomain: "tu-proyecto.firebaseapp.com",
+        projectId: "tu-proyecto",
+        storageBucket: "tu-proyecto.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456:web:abcdef"
+    };
     // ------------------------------------------------------------------
 
     const app = initializeApp(firebaseConfig);
@@ -165,8 +187,9 @@
 
     let inventarioLocal = [];
     let idEditando = null;
+    let carrito = []; // ARRAY DEL CARRITO
 
-    // 1. LEER INVENTARIO
+    // 1. CARGAR INVENTARIO
     onSnapshot(colJuguetes, (snapshot) => {
         inventarioLocal = [];
         const tbody = document.getElementById("tbodyInventario");
@@ -183,14 +206,128 @@
             inventarioLocal.push(d);
 
             tbody.innerHTML += `<tr><td>${d.nombre}<br><small>${d.codigo}</small></td><td style="font-weight:bold">${d.existencia}</td><td class="cost">$${d.precioCompra}</td><td>$${d.precioVenta}</td><td><button onclick="borrarProducto('${d.id}')">🗑️</button></td></tr>`;
-            select.innerHTML += `<option value="${d.id}" data-precio="${d.precioVenta}">${d.nombre}</option>`;
+            select.innerHTML += `<option value="${d.id}">${d.nombre} ($${d.precioVenta})</option>`;
         });
         if(prevSelect) select.value = prevSelect;
         window.borrarProducto = (id) => { if(confirm("¿Borrar?")) deleteDoc(doc(db, "juguetes", id)); };
     });
 
-    // 2. LEER VENTAS
-    const qVentas = query(colVentas, orderBy("fecha", "desc"), limit(50));
+    // 2. LÓGICA DEL CARRITO 🛒
+    window.agregarAlCarrito = function() {
+        const id = document.getElementById('selectProductoVenta').value;
+        const cant = parseInt(document.getElementById('cantidadVenta').value);
+        
+        if(!id) return alert("Selecciona un producto");
+        if(isNaN(cant) || cant < 1) return alert("Cantidad inválida");
+
+        const prod = inventarioLocal.find(p => p.id === id);
+        
+        // Verificar stock global vs lo que ya tengo en carrito
+        const enCarrito = carrito.find(item => item.id === id);
+        const cantidadEnCarrito = enCarrito ? enCarrito.cantidad : 0;
+
+        if((cantidadEnCarrito + cant) > prod.existencia) {
+            return alert(`Stock insuficiente. Tienes ${prod.existencia}, intentas vender ${cantidadEnCarrito + cant}.`);
+        }
+
+        if(enCarrito) {
+            enCarrito.cantidad += cant;
+            enCarrito.subtotal = enCarrito.cantidad * enCarrito.precioVenta;
+        } else {
+            carrito.push({
+                id: prod.id,
+                codigo: prod.codigo,
+                nombre: prod.nombre,
+                precioVenta: prod.precioVenta,
+                costoCompra: prod.precioCompra || 0,
+                cantidad: cant,
+                subtotal: prod.precioVenta * cant
+            });
+        }
+        
+        actualizarVistaCarrito();
+        // Resetear inputs de venta
+        document.getElementById('cantidadVenta').value = 1;
+        document.getElementById('selectProductoVenta').value = "";
+        document.getElementById('buscadorVenta').value = "";
+    }
+
+    window.eliminarDelCarrito = function(index) {
+        carrito.splice(index, 1);
+        actualizarVistaCarrito();
+    }
+
+    function actualizarVistaCarrito() {
+        const tbody = document.getElementById('listaCarrito');
+        const totalDisplay = document.getElementById('totalCarritoDisplay');
+        tbody.innerHTML = "";
+        let total = 0;
+
+        if(carrito.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#999;">Carrito vacío</td></tr>';
+        } else {
+            carrito.forEach((item, index) => {
+                total += item.subtotal;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.nombre}</td>
+                        <td>${item.cantidad}</td>
+                        <td>$${item.subtotal.toFixed(2)}</td>
+                        <td><button class="btn-remove" onclick="eliminarDelCarrito(${index})">X</button></td>
+                    </tr>`;
+            });
+        }
+        totalDisplay.innerText = `Total Ticket: $${total.toFixed(2)}`;
+    }
+
+    // 3. PROCESAR VENTA (FINALIZAR TICKET)
+    window.procesarVentaCompleta = async function() {
+        if(carrito.length === 0) return alert("El carrito está vacío");
+        if(!confirm(`¿Cobrar ticket por un total de $${carrito.reduce((a,b)=>a+b.subtotal,0).toFixed(2)}?`)) return;
+
+        try {
+            const batch = writeBatch(db); // Para operaciones atómicas (todo o nada)
+            let totalVenta = 0;
+            let totalGanancia = 0;
+            
+            // 1. Preparar actualizaciones de stock
+            for (const item of carrito) {
+                const prodRef = doc(db, "juguetes", item.id);
+                // Buscamos stock actual 'fresco' (simplificado usando la copia local por velocidad, idealmente leer de BD)
+                const prodActual = inventarioLocal.find(p => p.id === item.id);
+                
+                if(prodActual.existencia < item.cantidad) {
+                    throw new Error(`Stock cambió para ${item.nombre}. Venta cancelada.`);
+                }
+                
+                batch.update(prodRef, { "existencia": prodActual.existencia - item.cantidad });
+                
+                totalVenta += item.subtotal;
+                totalGanancia += (item.precioVenta - item.costoCompra) * item.cantidad;
+            }
+
+            // 2. Guardar el Ticket
+            const ventaRef = doc(collection(db, "ventas"));
+            batch.set(ventaRef, {
+                fecha: serverTimestamp(),
+                items: carrito, // Guardamos TODO el array de productos
+                totalTicket: totalVenta,
+                gananciaTicket: totalGanancia
+            });
+
+            await batch.commit();
+
+            alert("✅ ¡Venta registrada exitosamente!");
+            carrito = [];
+            actualizarVistaCarrito();
+            
+        } catch (e) {
+            alert("Error al procesar venta: " + e.message);
+        }
+    }
+
+    // 4. REPORTE DE VENTAS (TIPO TICKET)
+    const qVentas = query(colVentas, orderBy("fecha", "desc"), limit(30));
     onSnapshot(qVentas, (snapshot) => {
         const tbody = document.getElementById("listaVentas");
         tbody.innerHTML = "";
@@ -200,136 +337,110 @@
         snapshot.forEach((doc) => {
             const v = doc.data();
             const fecha = v.fecha ? v.fecha.toDate() : new Date();
-            const ganancia = v.gananciaTotal || 0;
-            if(fecha.toLocaleDateString() === hoy) { sumaVenta += v.total; sumaGanancia += ganancia; }
-            tbody.innerHTML += `<tr><td>${fecha.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td><td>${v.nombreProducto} <small>x${v.cantidad}</small></td><td>$${v.total}</td><td class="profit">$${ganancia.toFixed(2)}</td></tr>`;
+            const esHoy = fecha.toLocaleDateString() === hoy;
+            
+            // Compatibilidad con ventas viejas (unitarias) vs nuevas (tickets)
+            let detalleHTML = "";
+            let totalTicket = 0;
+            let gananciaTicket = 0;
+
+            if (v.items && Array.isArray(v.items)) {
+                // ES UN TICKET NUEVO (Array)
+                totalTicket = v.totalTicket;
+                gananciaTicket = v.gananciaTicket || 0;
+                
+                // Crear lista bonita de items
+                v.items.forEach(item => {
+                    detalleHTML += `<div>• ${item.nombre} <small>(x${item.cantidad})</small></div>`;
+                });
+
+            } else {
+                // ES UNA VENTA ANTIGUA (Unitaria)
+                totalTicket = v.total;
+                gananciaTicket = v.gananciaTotal || 0;
+                detalleHTML = `<div>• ${v.nombreProducto} <small>(x${v.cantidad})</small></div>`;
+            }
+
+            if(esHoy) { sumaVenta += totalTicket; sumaGanancia += gananciaTicket; }
+
+            tbody.innerHTML += `
+                <tr style="background: ${esHoy ? '#f9fff9' : 'white'}">
+                    <td>${fecha.toLocaleDateString()} <br> ${fecha.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td>
+                    <td>${detalleHTML}</td>
+                    <td style="font-weight:bold; color:#1a73e8;">$${totalTicket.toFixed(2)}</td>
+                </tr>`;
         });
         document.getElementById("totalDia").innerText = `$${sumaVenta.toFixed(2)}`;
         document.getElementById("gananciaDia").innerText = `$${sumaGanancia.toFixed(2)}`;
     });
 
-    // 3. MOVIMIENTOS
-    onSnapshot(query(colMovimientos, orderBy("fecha", "desc"), limit(20)), (snapshot) => {
-        const tbody = document.getElementById("listaMovimientos"); tbody.innerHTML = "";
-        snapshot.forEach((doc) => {
-            const m = doc.data();
-            tbody.innerHTML += `<tr><td>${m.fecha ? m.fecha.toDate().toLocaleDateString() : ''}</td><td>${m.nombre}</td><td>${m.tipo}</td><td>${m.detalle}</td></tr>`;
-        });
-    });
-
-    // 4. LÓGICA DE EXPORTACIÓN (NUEVO 🚀)
-    window.exportarInventario = function() {
-        let csv = "Codigo,Nombre,Stock,Costo Compra,Precio Venta,Valor Total Costo,Valor Total Venta\n";
-        inventarioLocal.forEach(p => {
-            const valCosto = (p.precioCompra || 0) * p.existencia;
-            const valVenta = p.precioVenta * p.existencia;
-            csv += `"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra || 0},${p.precioVenta},${valCosto},${valVenta}\n`;
-        });
-        descargarCSV(csv, "Inventario_Jugueteria.csv");
-    }
-
+    // 5. EXPORTAR VENTAS (DESGLOSADO)
     window.exportarVentas = async function() {
-        if(!confirm("Esto descargará TODAS las ventas históricas. ¿Continuar?")) return;
-        
-        // Consultamos todas las ventas (sin límite de 50)
+        if(!confirm("Descargar historial completo?")) return;
         const snapshot = await getDocs(query(colVentas, orderBy("fecha", "desc")));
-        let csv = "Fecha,Hora,Producto,Cantidad,Costo Unit,Venta Unit,Total Venta,Ganancia Total\n";
+        
+        let csv = "ID Ticket,Fecha,Hora,Producto,Cantidad,Precio Venta,Costo,Subtotal Venta,Subtotal Ganancia\n";
         
         snapshot.forEach(doc => {
             const v = doc.data();
             const f = v.fecha ? v.fecha.toDate() : new Date();
-            csv += `"${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${v.nombreProducto}",${v.cantidad},${v.costoUnitarioSnapshot || 0},${v.precioVentaUnitario},${v.total},${v.gananciaTotal || 0}\n`;
-        });
-        descargarCSV(csv, "Reporte_Ventas.csv");
-    }
+            const idTicket = doc.id;
 
-    function descargarCSV(csvContent, fileName) {
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", fileName);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    // 5. INGRESO / VENTA (Igual que antes)
-    window.verificarProducto = function() {
-        const cod = document.getElementById('codigo').value;
-        const prod = inventarioLocal.find(j => j.codigo === cod);
-        if (prod) {
-            idEditando = prod.id;
-            document.getElementById('nombre').value = prod.nombre;
-            document.getElementById('precioCompra').value = prod.precioCompra; 
-            document.getElementById('precioVenta').value = prod.precioVenta;
-            document.getElementById('existencia').value = ''; 
-            document.getElementById('modoInfo').innerText = `🔄 EDITANDO: ${prod.nombre}`;
-            document.getElementById('modoInfo').style.display = 'block';
-            document.getElementById('btnGuardar').className = "action-btn btn-orange";
-            document.getElementById('btnGuardar').innerText = "Actualizar";
-        } else {
-            idEditando = null;
-            document.getElementById('modoInfo').style.display = 'none';
-            document.getElementById('btnGuardar').className = "action-btn btn-green";
-            document.getElementById('btnGuardar').innerText = "Guardar Nuevo";
-            if(document.getElementById('nombre').value==='') document.getElementById('precioCompra').value='';
-        }
-    }
-
-    window.procesarIngreso = async function() {
-        const codigo = document.getElementById('codigo').value;
-        const nombre = document.getElementById('nombre').value;
-        const pCompra = parseFloat(document.getElementById('precioCompra').value);
-        const pVenta = parseFloat(document.getElementById('precioVenta').value);
-        const cantidad = parseInt(document.getElementById('existencia').value);
-
-        if(!codigo || !nombre || isNaN(pCompra) || isNaN(pVenta) || isNaN(cantidad)) return alert("Datos incompletos");
-
-        try {
-            if (idEditando) {
-                const old = inventarioLocal.find(j => j.id === idEditando);
-                const nuevoS = old.existencia + cantidad;
-                await updateDoc(doc(db, "juguetes", idEditando), { nombre, precioCompra: pCompra, precioVenta: pVenta, existencia: nuevoS });
-                await addDoc(colMovimientos, { fecha: serverTimestamp(), tipo: 'REABASTECIMIENTO', nombre, detalle: `Stock anterior ${old.existencia} -> Nuevo ${nuevoS}` });
-                alert("Actualizado ✅");
+            if(v.items && Array.isArray(v.items)) {
+                // Desglosar ticket
+                v.items.forEach(item => {
+                    const subGanancia = (item.precioVenta - item.costoCompra) * item.cantidad;
+                    csv += `"${idTicket}","${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${item.nombre}",${item.cantidad},${item.precioVenta},${item.costoCompra},${item.subtotal},${subGanancia}\n`;
+                });
             } else {
-                if(inventarioLocal.some(j => j.codigo === codigo)) return alert("Código repetido");
-                await addDoc(colJuguetes, { codigo, nombre, precioCompra: pCompra, precioVenta: pVenta, existencia: cantidad });
-                await addDoc(colMovimientos, { fecha: serverTimestamp(), tipo: 'ALTA NUEVA', nombre, detalle: `Inicial: ${cantidad}` });
-                alert("Creado ✅");
+                // Venta vieja
+                csv += `"${idTicket}","${f.toLocaleDateString()}","${f.toLocaleTimeString()}","${v.nombreProducto}",${v.cantidad},${v.precioVentaUnitario},${v.costoUnitarioSnapshot},${v.total},${v.gananciaTotal}\n`;
             }
-            limpiarInputs();
-        } catch (e) { alert("Error: " + e.message); }
+        });
+        descargarCSV(csv, "Reporte_Ventas_Detallado.csv");
     }
 
-    window.venderEnNube = async function() {
-        const id = document.getElementById('selectProductoVenta').value;
-        const cant = parseInt(document.getElementById('cantidadVenta').value);
-        if(!id) return alert("Selecciona producto");
-        const prod = inventarioLocal.find(j => j.id === id);
-        
-        if(prod.existencia >= cant) {
-            const total = prod.precioVenta * cant;
-            const ganancia = total - ((prod.precioCompra||0) * cant);
-            await updateDoc(doc(db, "juguetes", id), { existencia: prod.existencia - cant });
-            await addDoc(colVentas, { fecha: serverTimestamp(), idProducto: id, nombreProducto: prod.nombre, cantidad: cant, precioVentaUnitario: prod.precioVenta, costoUnitarioSnapshot: prod.precioCompra||0, total: total, gananciaTotal: ganancia });
-            alert(`Vendido: $${total}`);
-            document.getElementById('cantidadVenta').value = 1; document.getElementById('totalVentaDisplay').innerText = "$0.00";
-        } else { alert("Stock insuficiente"); }
+    // --- FUNCIONES AUXILIARES (Iguales) ---
+    window.exportarInventario = function() {
+        let csv = "Codigo,Nombre,Stock,Costo,Venta\n";
+        inventarioLocal.forEach(p => csv += `"${p.codigo}","${p.nombre}",${p.existencia},${p.precioCompra},${p.precioVenta}\n`);
+        descargarCSV(csv, "Inventario.csv");
     }
-
-    window.limpiarInputs = function() { document.querySelectorAll('#inventario input').forEach(i => i.value = ''); document.getElementById('modoInfo').style.display = 'none'; idEditando=null; document.getElementById('btnGuardar').className="action-btn btn-green"; document.getElementById('btnGuardar').innerText="Guardar Nuevo"; }
-    window.calcularTotalPreview = function() { const s=document.getElementById('selectProductoVenta'); const p=s.options[s.selectedIndex]?.dataset.precio||0; document.getElementById('totalVentaDisplay').innerText=`$${(p*document.getElementById('cantidadVenta').value).toFixed(2)}`; }
+    function descargarCSV(content, name) {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([content], {type:'text/csv;charset=utf-8;'}));
+        link.download = name; link.click();
+    }
+    window.limpiarInputs = function() { document.querySelectorAll('#inventario input').forEach(i => i.value = ''); idEditando=null; document.getElementById('modoInfo').style.display='none'; document.getElementById('btnGuardar').innerText="Guardar Producto"; }
     window.filtrarInventarioLocal = function() { const t=document.getElementById('buscador').value.toLowerCase(); document.querySelectorAll('#tbodyInventario tr').forEach(r => r.style.display=r.innerText.toLowerCase().includes(t)?'':'none'); }
-    window.buscarYSeleccionar = function() { const c=document.getElementById('buscadorVenta').value; const f=inventarioLocal.find(j=>j.codigo===c); if(f){ document.getElementById('selectProductoVenta').value=f.id; window.calcularTotalPreview(); } }
-    window.mostrarSeccion = function(s){ document.querySelectorAll('.section').forEach(x=>{x.classList.remove('active');x.style.display='none'}); document.getElementById(s).style.display='block'; document.getElementById(s).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); }
     
-    // CAMARA
+    // INGRESO
+    window.verificarProducto = function() {
+        const cod = document.getElementById('codigo').value; const prod = inventarioLocal.find(j=>j.codigo===cod);
+        if(prod) { idEditando=prod.id; document.getElementById('nombre').value=prod.nombre; document.getElementById('precioCompra').value=prod.precioCompra; document.getElementById('precioVenta').value=prod.precioVenta; document.getElementById('existencia').value=''; document.getElementById('modoInfo').innerText=`EDITANDO: ${prod.nombre}`; document.getElementById('modoInfo').style.display='block'; document.getElementById('btnGuardar').innerText="Actualizar"; }
+        else { idEditando=null; document.getElementById('modoInfo').style.display='none'; document.getElementById('btnGuardar').innerText="Guardar Producto"; }
+    }
+    window.procesarIngreso = async function() {
+        const c=document.getElementById('codigo').value; const n=document.getElementById('nombre').value; const pc=parseFloat(document.getElementById('precioCompra').value); const pv=parseFloat(document.getElementById('precioVenta').value); const st=parseInt(document.getElementById('existencia').value);
+        if(!c||!n) return alert("Datos faltantes");
+        if(idEditando) {
+             const old=inventarioLocal.find(j=>j.id===idEditando); const nSt=old.existencia+st;
+             await updateDoc(doc(db,"juguetes",idEditando),{nombre:n,precioCompra:pc,precioVenta:pv,existencia:nSt});
+             await addDoc(colMovimientos,{fecha:serverTimestamp(),nombre:n,accion:"INGRESO/CAMBIO",detalle:`Stock ${old.existencia}->${nSt}`});
+        } else {
+             if(inventarioLocal.some(j=>j.codigo===c)) return alert("Código existe");
+             await addDoc(colJuguetes,{codigo:c,nombre:n,precioCompra:pc,precioVenta:pv,existencia:st});
+             await addDoc(colMovimientos,{fecha:serverTimestamp(),nombre:n,accion:"NUEVO",detalle:`Inicio: ${st}`});
+        }
+        alert("Guardado"); limpiarInputs();
+    }
+
+    // CAMARA / BUSQUEDA
+    window.buscarYSeleccionar = function() { const c=document.getElementById('buscadorVenta').value; const f=inventarioLocal.find(j=>j.codigo===c); if(f){ document.getElementById('selectProductoVenta').value=f.id; } }
     let sc; let inp;
-    window.iniciarEscaneo=function(i){ inp=i; document.getElementById('reader').style.display='block'; document.getElementById('btnStopScan').style.display='block'; sc=new Html5Qrcode("reader"); sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{ document.getElementById(inp).value=t; detenerEscaneo(); if(inp==='codigo')verificarProducto(); if(inp==='buscadorVenta')buscarYSeleccionar(); }); }
+    window.iniciarEscaneo=function(i){ inp=i; document.getElementById('reader').style.display='block'; document.getElementById('btnStopScan').style.display='block'; sc=new Html5Qrcode("reader"); sc.start({facingMode:"environment"},{fps:10,qrbox:250},(t)=>{ document.getElementById(inp).value=t; detenerEscaneo(); if(inp==='codigo')verificarProducto(); if(inp==='buscadorVenta'){ window.buscarYSeleccionar(); } }); }
     window.detenerEscaneo=function(){ if(sc){ sc.stop().then(()=>{ document.getElementById('reader').style.display='none'; document.getElementById('btnStopScan').style.display='none'; sc.clear(); }); } }
+    window.mostrarSeccion=function(s){ document.querySelectorAll('.section').forEach(x=>{x.classList.remove('active');x.style.display='none'}); document.getElementById(s).style.display='block'; document.getElementById(s).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); }
 </script>
 </body>
 </html>
